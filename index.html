@@ -5,42 +5,43 @@
     <title>ميزان سولار</title>
     <style>
         :root {
-            --glow-cyan: #4facfe; --neon-blue: #00f2fe; --danger: #ff4b2b; --victory: #2ecc71;
+            --glow: #4facfe; --neon: #00f2fe; --danger: #ff4b2b; --victory: #2ecc71;
             --galaxy: linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b, #4facfe);
         }
         body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma; background-color: #050510; color: white; overflow: hidden; height: 100vh; display: flex; justify-content: center; align-items: center; }
         .animated-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('bg.jpd') center/cover no-repeat; z-index: -2; }
-        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(15px); z-index: 5000; justify-content: center; align-items: center; }
+        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(20px); z-index: 5000; justify-content: center; align-items: center; }
         .content-box { background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(20px); max-width: 500px; text-align: right; width: 90%; }
         .controls-top { position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; z-index: 1000; }
         .btn-ctrl { background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.2); color: white; padding: 8px 15px; border-radius: 10px; cursor: pointer; font-weight: bold; }
-        .logo-area { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 5px; }
+        .logo-area { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px; }
         .logo-box { width: 55px; height: 55px; border: 2px solid #fff; border-radius: 12px; background: url('logo.png') center/cover no-repeat; }
-        .logo-text { font-size: 3rem; font-weight: 900; background: var(--galaxy); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        #setup-screen { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(35px); z-index: 4000; display: flex; align-items: center; justify-content: center; gap: 50px; padding: 20px; }
-        .rules-side { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 20px; border-right: 4px solid var(--neon-blue); width: 260px; display: flex; flex-direction: column; gap: 15px; }
-        .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
+        .logo-text { font-size: 3.5rem; font-weight: 900; background: var(--galaxy); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        #setup-screen { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(35px); z-index: 4000; display: flex; align-items: center; justify-content: center; gap: 40px; padding: 20px; }
+        .rules-side { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; border-right: 4px solid var(--neon); width: 230px; text-align: right; }
+        .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; }
         .config-grid input, .config-grid select { background: rgba(0,0,0,0.6); color: white; border: 1px solid #444; padding: 6px; border-radius: 5px; width: 130px; }
         .main-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 40px; width: 95%; max-width: 950px; padding: 25px; text-align: center; position: relative; }
-        .balance-container { height: 120px; position: relative; margin-bottom: 20px; display: flex; justify-content: center; }
-        .beam { width: 500px; height: 10px; background: #fff; position: absolute; top: 20px; transition: 0.8s; }
-        .cup { width: 130px; height: 65px; background: rgba(0,0,0,0.7); border: 1.5px solid #fff; border-radius: 0 0 70px 70px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .balance-container { height: 120px; position: relative; display: flex; justify-content: center; align-items: flex-end; margin-bottom: 20px; }
+        .beam { width: 500px; height: 10px; background: #fff; position: relative; transition: 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28); }
+        .cup { width: 130px; height: 65px; background: rgba(0,0,0,0.7); border: 2px solid #fff; border-radius: 0 0 70px 70px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-top: 30px; padding: 0 80px; }
-        .num-btn { padding: 18px; font-size: 1.6rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 15px; cursor: pointer; font-weight: bold; }
-        .num-btn:disabled { opacity: 0.1; border-color: red; }
-        .cat-card { padding: 12px; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; cursor: pointer; margin: 4px 0; text-align: center; background: rgba(255,255,255,0.03); }
-        .cat-card.selected { background: var(--neon-blue); color: black; font-weight: bold; }
-        @keyframes wasted-anim { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .num-btn { padding: 18px; font-size: 1.6rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 15px; cursor: pointer; transition: 0.3s; font-weight: bold; }
+        .num-btn:disabled { opacity: 0.1; border-color: red; background: rgba(200,0,0,0.1); }
+        .cat-card { padding: 10px; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; cursor: pointer; margin: 5px 0; text-align: center; width: 100%; background: rgba(255,255,255,0.05); }
+        .cat-card.selected { background: var(--neon); color: black; font-weight: bold; border-color: white; }
+        @keyframes wasted-anim { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px red); } 50% { transform: scale(1.15); filter: drop-shadow(0 0 30px red); } }
         #wasted-screen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(20px); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; }
-        #wasted-title { color: red; font-size: 8rem; animation: wasted-anim 1s infinite; }
-        .paused-overlay { display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(15px); z-index: 2000; border-radius: 40px; align-items: center; justify-content: center; font-size: 3rem; color: gold; }
+        #wasted-title { color: red; font-size: 9rem; font-weight: 900; animation: wasted-anim 1s infinite; letter-spacing: 10px; }
+        .rights-label { font-size: 0.85rem; opacity: 0.7; color: var(--glow); margin-top: 15px; text-align: center; width: 100%; }
+        .paused-overlay { display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(15px); z-index: 2000; border-radius: 40px; align-items: center; justify-content: center; font-size: 3rem; color: gold; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div id="wasted-screen">
         <h1 id="wasted-title">WASTED</h1>
-        <div id="loser-display" style="color:white; font-size:3rem;"></div>
+        <div id="loser-display" style="color:white; font-size:3.5rem; text-shadow: 0 0 30px red;"></div>
     </div>
     <div class="animated-bg"></div>
 
@@ -52,11 +53,13 @@
 
     <div id="setup-screen">
         <div class="rules-side">
-            <b>📜 الشروط:</b>
-            <p>• الخطأ يضيف ضعف الرقم.</p>
-            <p>• السؤال لا يتكرر أبداً.</p>
-            <p>• الحد يحسب فردياً.</p>
+            <b style="color:var(--neon)">📜 الشروط:</b><br><br>
+            <p>• الخطأ يضيف <u>ضعف الرقم</u> المختار.</p>
+            <p>• السؤال لا يتكرر .</p>
+            <p>• الحد يحسب فردياً لكل فريق.</p>
+            <p>• لديك وقت محدد لاختيار الرقم.</p>
         </div>
+
         <div style="text-align:center;">
             <div class="logo-area"><div class="logo-box"></div><h1 class="logo-text">SOLAR</h1></div>
             <div class="config-grid">
@@ -65,61 +68,81 @@
                 <label>وقت الاختيار:</label><input type="number" id="choice-limit-input" value="10">
                 <label>وقت السؤال:</label><input type="number" id="time-limit" value="30">
                 <label>الحد:</label>
-                <div style="display:flex; gap:5px;"><input type="password" id="score-limit" value="50" style="width:70px;"><button onclick="toggleLimitView()">👁️</button></div>
+                <div style="display:flex; gap:5px; align-items:center;">
+                    <input type="password" id="score-limit" value="50" style="width:70px;">
+                    <button onclick="toggleLimitView()" style="background:none; border:none; color:white; cursor:pointer; font-size:1.2rem;">👁️</button>
+                </div>
                 <label>المستوى:</label>
-                <select id="diff-select"><option value="all">الكل</option><option value="easy">سهل</option><option value="med">متوسط</option><option value="hard">صعب</option></select>
+                <select id="diff-select">
+                    <option value="all">الكل</option>
+                    <option value="easy">سهل</option>
+                    <option value="med">متوسط</option>
+                    <option value="hard">صعب</option>
+                </select>
             </div>
-            <div style="display:flex; gap:15px; margin-top:15px;">
-                <div id="p1-cats" style="width:140px;">
-                    <div class="cat-card" onclick="setCat(1, 'عام')">🧠 عام</div><div class="cat-card" onclick="setCat(1, 'دين')">🕋 دين</div>
-                    <div class="cat-card" onclick="setCat(1, 'كورة')">⚽ كورة</div><div class="cat-card" onclick="setCat(1, 'ثقافة')">📚 ثقافة</div>
+
+            <div style="display:flex; gap:20px; margin-top:15px;">
+                <div id="p1-cats-setup" style="width:160px;">
+                    <div class="cat-card" onclick="setCat(1, 'عام')">🧠 عام</div>
+                    <div class="cat-card" onclick="setCat(1, 'دين')">🕋 دين</div>
+                    <div class="cat-card" onclick="setCat(1, 'كورة')">⚽ كورة</div>
+                    <div class="cat-card" onclick="setCat(1, 'ثقافة')">📚 ثقافة</div>
                 </div>
-                <div id="p2-cats" style="width:140px;">
-                    <div class="cat-card" onclick="setCat(2, 'عام')">🧠 عام</div><div class="cat-card" onclick="setCat(2, 'دين')">🕋 دين</div>
-                    <div class="cat-card" onclick="setCat(2, 'كورة')">⚽ كورة</div><div class="cat-card" onclick="setCat(2, 'ثقافة')">📚 ثقافة</div>
+                <div id="p2-cats-setup" style="width:160px;">
+                    <div class="cat-card" onclick="setCat(2, 'عام')">🧠 عام</div>
+                    <div class="cat-card" onclick="setCat(2, 'دين')">🕋 دين</div>
+                    <div class="cat-card" onclick="setCat(2, 'كورة')">⚽ كورة</div>
+                    <div class="cat-card" onclick="setCat(2, 'ثقافة')">📚 ثقافة</div>
                 </div>
             </div>
-            <button onclick="startGame()" style="margin-top:20px; padding:12px 60px; background:var(--victory); border:none; border-radius:50px; color:white; font-weight:bold; cursor:pointer;">انطلاق 🚀</button>
-            <div style="margin-top:15px; font-size:0.8rem; opacity:0.6;">👨‍💻 Leba, AAA | 🎨 mesh</div>
+            <button onclick="startGame()" style="margin-top:25px; padding:15px 100px; background:var(--victory); border:none; border-radius:50px; color:white; font-weight:bold; cursor:pointer; font-size:1.5rem;">انطلاق 🚀</button>
+            <div class="rights-label">👨‍💻 Leba, AAA | 🎨 mesh</div>
         </div>
     </div>
 
     <div class="main-card" id="game-ui" style="display:none;">
-        <div id="paused-msg" class="paused-overlay">اللعبة متوقفة ⏸️</div>
+        <div id="game-paused-msg" class="paused-overlay">اللعبة متوقفة ⏸️</div>
         <div class="logo-area" style="margin-bottom:10px;"><div class="logo-box"></div><h1 class="logo-text">SOLAR</h1></div>
+        
         <div class="balance-container">
             <div class="beam" id="beam">
-                <div class="cup" style="position:absolute; left:-10px; bottom:-65px;"><small id="label-p1"></small><b id="s1">0</b></div>
-                <div class="cup" style="position:absolute; right:-10px; bottom:-65px;"><small id="label-p2"></small><b id="s2">0</b></div>
+                <div class="cup" style="position:absolute; left:-10px; bottom:-65px;"><small id="label-p1"></small><b id="s1" style="font-size:1.8rem">0</b></div>
+                <div class="cup" style="position:absolute; right:-10px; bottom:-65px;"><small id="label-p2"></small><b id="s2" style="font-size:1.8rem">0</b></div>
             </div>
         </div>
+
         <div id="choice-timer" style="font-size:3rem; color:#ffaf7b; font-weight:900;">10</div>
-        <h2 id="turn-txt" style="color:var(--neon-blue); margin-bottom:10px;"></h2>
+        <h2 id="turn-txt" style="color:var(--neon); margin-bottom:10px; font-size: 2.2rem;"></h2>
+        
         <div class="grid" id="number-grid">
             <script>for(let i=1; i<=10; i++) document.write(`<button class="num-btn" id="btn-${i}" onclick="ask(${i})">${i}</button>`);</script>
         </div>
-        <div style="margin-top:20px; font-size:0.8rem; opacity:0.6;">👨‍💻 Leba, AAA | 🎨 mesh</div>
+        <div class="rights-label">👨‍💻 Leba, AAA | 🎨 mesh</div>
     </div>
 
     <div id="q-modal" class="overlay">
         <div class="content-box">
-            <div id="q-timer" style="font-size:3.5rem; color:red; text-align:center; font-weight:900;">30</div>
-            <h2 id="q-text" style="text-align:center;"></h2>
-            <div id="ans-box" style="display:none; color:var(--victory); text-align:center; margin:10px; font-weight:bold;">الإجابة: <span id="ans-val"></span></div>
-            <button onclick="document.getElementById('ans-box').style.display='block'" style="width:100%; margin-bottom:10px;">إظهار الإجابة</button>
-            <div style="display:flex; gap:10px; justify-content:center;">
-                <button onclick="handleResult(true)" style="background:var(--victory); color:white; padding:12px 40px; border-radius:10px;">صح</button>
-                <button onclick="handleResult(false)" style="background:var(--danger); color:white; padding:12px 40px; border-radius:10px;">خطأ</button>
+            <div id="q-timer" style="font-size:4rem; color:red; text-align:center; font-weight:900; margin-bottom:10px;">30</div>
+            <h2 id="q-text" style="text-align:center; font-size:1.8rem; margin:20px 0; line-height:1.4;"></h2>
+            <div id="ans-box" style="display:none; color:var(--victory); text-align:center; margin:15px; font-weight:bold; font-size:1.6rem; border-top:1px solid #444; padding-top:10px;">الإجابة: <span id="ans-val"></span></div>
+            <button onclick="playSound('click'); document.getElementById('ans-box').style.display='block'" style="width:100%; padding:10px; margin-bottom:15px; cursor:pointer; background:rgba(255,255,255,0.1); color:white; border:1px solid #555; border-radius:10px;">إظهار الإجابة 👁️</button>
+            <div style="display:flex; gap:20px; justify-content:center;">
+                <button onclick="playSound('click'); handleResult(true)" style="background:var(--victory); color:white; padding:15px 50px; border-radius:12px; border:none; cursor:pointer; font-weight:bold; font-size:1.2rem;">صح ✅</button>
+                <button onclick="playSound('click'); handleResult(false)" style="background:var(--danger); color:white; padding:15px 50px; border-radius:12px; border:none; cursor:pointer; font-weight:bold; font-size:1.2rem;">خطأ ❌</button>
             </div>
         </div>
     </div>
 
+    <audio id="sound-click" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
+    <audio id="sound-boom" src="https://www.myinstants.com/media/sounds/gta-v-wasted-death-sound.mp3"></audio>
+    <audio id="sound-laugh" src="https://www.myinstants.com/media/sounds/evil-laugh.mp3"></audio>
+
     <script>
         const masterBank = {
-            'عام': [ {q:"كم عدد أيام الأسبوع؟", a:"7"}, {q:"ما عاصمة السعودية؟", a:"الرياض"}, {q:"كم عدد شهور السنة؟", a:"12"}, {q:"ما لون السماء؟", a:"أزرق"}, {q:"كم عدد أصابع اليد الواحدة؟", a:"5"}, {q:"ما الكوكب الذي نعيش عليه؟", a:"الأرض"}, {q:"ما الحيوان المعروف بملك الغابة؟", a:"الأسد"}, {q:"كم عدد القارات؟", a:"7"}, {q:"ما عاصمة فرنسا؟", a:"باريس"}, {q:"ما الغاز الذي نتنفسه؟", a:"الأكسجين"}, {q:"كم عدد الحواس؟", a:"5"}, {q:"ما أسرع حيوان بري؟", a:"الفهد"}, {q:"ما أكبر محيط؟", a:"المحيط الهادئ"}, {q:"كم عدد أضلع المثلث؟", a:"3"}, {q:"ما عاصمة مصر؟", a:"القاهرة"}, {q:"ما لون الدم؟", a:"أحمر"}, {q:"كم عدد أركان الإسلام؟", a:"5"}, {q:"ما الكوكب الأحمر؟", a:"المريخ"}, {q:"ما الحيوان الذي يعيش في الماء؟", a:"السمك"}, {q:"كم عدد أيام السنة؟", a:"365"}, {q:"ما اسم القمر الخاص بالأرض؟", a:"القمر"}, {q:"ما عاصمة اليابان؟", a:"طوكيو"}, {q:"كم عدد أرجل العنكبوت؟", a:"8"}, {q:"ما الحيوان الذي يطير؟", a:"الطيور"}, {q:"ما عاصمة بريطانيا؟", a:"لندن"}, {q:"كم عدد ألوان قوس قزح؟", a:"7"}, {q:"ما الجهاز الذي نستخدمه للاتصال؟", a:"الهاتف"}, {q:"ما الحيوان الذي يعطي الحليب؟", a:"البقرة"}, {q:"ما عاصمة إيطاليا؟", a:"روما"}, {q:"ما أكبر كوكب؟", a:"المشتري"}, {q:"ما عاصمة كندا؟", a:"أوتاوا"}, {q:"ما العنصر الذي رمزه O؟", a:"الأكسجين"}, {q:"كم عدد عظام الإنسان البالغ؟", a:"206"}, {q:"ما أكبر دولة في العالم؟", a:"روسيا"}, {q:"ما العملية التي تصنع بها النباتات غذاءها؟", a:"البناء الضوئي"}, {q:"ما أطول نهر في العالم؟", a:"النيل"}, {q:"ما العملة في اليابان؟", a:"الين"}, {q:"ما أسرع طائر؟", a:"الصقر"}, {q:"ما أكبر قارة؟", a:"آسيا"}, {q:"ما عاصمة ألمانيا؟", a:"برلين"}, {q:"ما الحيوان الذي يُسمى سفينة الصحراء؟", a:"الجمل"}, {q:"ما الغاز الذي يسبب الاحتباس الحراري؟", a:"ثاني أكسيد الكربون"}, {q:"ما عاصمة تركيا؟", a:"أنقرة"}, {q:"كم عدد أسنان الإنسان البالغ؟", a:"32"}, {q:"ما أصغر كوكب؟", a:"عطارد"}, {q:"ما اسم مجرة الأرض؟", a:"درب التبانة"}, {q:"ما الحيوان الذي يبيض ولا يلد؟", a:"الطيور"}, {q:"ما عاصمة إسبانيا؟", a:"مدريد"}, {q:"ما أكبر عضو في جسم الإنسان؟", a:"الجلد"}, {q:"ما وحدة قياس الطول؟", a:"المتر"}, {q:"ما عاصمة الصين؟", a:"بكين"}, {q:"ما الحيوان الذي يعيش أطول؟", a:"السلحفاة"}, {q:"ما وحدة قياس الوزن؟", a:"الكيلوغرام"}, {q:"ما عاصمة روسيا؟", a:"موسكو"}, {q:"ما أسرع سمكة؟", a:"سمكة أبو شراع"}, {q:"ما عاصمة الهند؟", a:"نيودلهي"}, {q:"ما أكبر غدة في جسم الإنسان؟", a:"الكبد"}, {q:"ما عدد الدول العربية؟", a:"22"}, {q:"ما عاصمة الأرجنتين؟", a:"بوينس آيرس"}, {q:"ما اسم كوكب زحل بالإنجليزية؟", a:"Saturn"}, {q:"ما عاصمة جنوب أفريقيا الإدارية؟", a:"بريتوريا"}, {q:"ما الحيوان الذي يغير لونه؟", a:"الحرباء"}, {q:"ما عاصمة السويد؟", a:"ستوكهولم"}, {q:"ما العنصر الذي رمزه Na؟", a:"الصوديوم"}, {q:"ما عاصمة النرويج؟", a:"أوسلو"}, {q:"ما أعلى شلال في العالم؟", a:"شلالات آنجل"}, {q:"ما عاصمة المكسيك؟", a:"مكسيكو سيتي"}, {q:"ما عدد الكواكب في المجموعة الشمسية؟", a:"8"}, {q:"ما عاصمة كوريا الجنوبية؟", a:"سيول"}, {q:"ما العضو المسؤول عن ضخ الدم؟", a:"القلب"}, {q:"ما الدولة التي لا تملك جيشًا؟", a:"كوستاريكا"}, {q:"ما العنصر الذي رمزه Fe؟", a:"الحديد"}, {q:"ما أكبر صحراء غير قطبية؟", a:"الصحراء الكبرى"}, {q:"ما أسرع كائن بحري؟", a:"سمكة أبو شراع"}, {q:"ما أطول سلسلة جبال في العالم؟", a:"الأنديز"}, {q:"ما عاصمة نيوزيلندا؟", a:"ويلينغتون"}, {q:"ما أعلى جبل في أفريقيا؟", a:"كليمنجارو"}, {q:"ما اللغة الأكثر انتشارًا في العالم؟", a:"الإنجليزية"}, {q:"ما الدولة التي تضم أكبر عدد من الجزر؟", a:"السويد"}, {q:"ما أكبر بحيرة في العالم؟", a:"بحر قزوين"}, {q:"ما اسم أطول نهر في أوروبا؟", a:"الفولغا"}, {q:"ما الدولة التي اخترعت الورق؟", a:"الصين"}, {q:"ما أول دولة استخدمت العملة الورقية؟", a:"الصين"}, {q:"ما العنصر الأكثر وفرة في الكون؟", a:"الهيدروجين"}, {q:"ما أصغر دولة في العالم؟", a:"الفاتيكان"}, {q:"ما أكبر عضو داخلي في جسم الإنسان؟", a:"الكبد"}, {q:"ما الدولة التي تقع فيها صحراء أتاكاما؟", a:"تشيلي"}, {q:"ما أعلى مبنى في العالم؟", a:"برج خليفة"}, {q:"ما أول قارة اكتُشفت؟", a:"أفريقيا"}, {q:"ما الدولة التي لديها أكبر عدد سكان؟", a:"الهند"}, {q:"ما أطول نهر في آسيا؟", a:"اليانغتسي"}, {q:"ما عاصمة سويسرا؟", a:"برن"}, {q:"ما الحيوان الذي يملك ذاكرة قوية جدًا؟", a:"الفيل"}, {q:"ما العنصر الذي رمزه Au؟", a:"الذهب"}, {q:"ما أكبر بركان نشط في العالم؟", a:"ماونا لوا"}, {q:"ما أسرع حيوان مائي؟", a:"سمكة أبو شراع"}, {q:"ما الدولة التي تشتهر بالتانغو؟", a:"الأرجنتين"}, {q:"ما أعلى هضبة في العالم؟", a:"هضبة التبت"}, {q:"ما الدولة التي تُعرف بأرض الشمس المشرقة؟", a:"اليابان"}, {q:"ما أول من دار حول الأرض؟", a:"يوري غاغارين"} ],
-            'دين': [ {q: "كم عدد أركان الإسلام؟", a: "5"}, {q: "ما هي الشهادة؟", a: "لا إله إلا الله محمد رسول الله"}, {q: "كم عدد الصلوات المفروضة؟", a: "5"}, {q: "ما قبلة المسلمين؟", a: "الكعبة"}, {q: "في أي شهر يصوم المسلمون؟", a: "رمضان"}, {q: "ما اسم كتاب المسلمين؟", a: "القرآن الكريم"}, {q: "كم عدد أركان الإيمان؟", a: "6"}, {q: "من هو خاتم الأنبياء؟", a: "محمد ﷺ"}, {q: "ما أول سورة في القرآن؟", a: "الفاتحة"}, {q: "ما آخر سورة في القرآن؟", a: "الناس"}, {q: "ما أطول سورة في القرآن؟", a: "البقرة"}, {q: "ما أقصر سورة في القرآن؟", a: "الكوثر"}, {q: "كم عدد سور القرآن؟", a: "114"}, {q: "في أي مدينة ولد النبي ﷺ؟", a: "مكة"}, {q: "في أي مدينة توفي النبي ﷺ؟", a: "المدينة المنورة"}, {q: "ما اسم والدة النبي ﷺ؟", a: "آمنة بنت وهب"}, {q: "ما اسم والد النبي ﷺ؟", a: "عبد الله بن عبد المطلب"}, {q: "من أول الخلفاء الراشدين؟", a: "أبو بكر الصديق"}, {q: "كم عدد الركعات في صلاة الفجر؟", a: "2"}, {q: "كم عدد الركعات في صلاة الظهر؟", a: "4"}, {q: "كم عدد الركعات في صلاة المغرب؟", a: "3"}, {q: "كم عدد الركعات في صلاة العشاء؟", a: "4"}, {q: "ما اسم أول مسجد في الإسلام؟", a: "مسجد قباء"}, {q: "ما اسم المسجد الحرام في مكة؟", a: "المسجد الحرام"}, {q: "ما اسم المسجد في المدينة؟", a: "المسجد النبوي"}, {q: "من أول من أسلم من الرجال؟", a: "أبو بكر الصديق"}, {q: "من أول من أسلم من النساء؟", a: "خديجة بنت خويلد"}, {q: "من أول من أسلم من الصبيان؟", a: "علي بن أبي طالب"}, {q: "ما اسم الملك الموكل بالوحي؟", a: "جبريل عليه السلام"}, {q: "ما هي ليلة خير من ألف شهر؟", a: "ليلة القدر"}, {q: "في أي غار نزل الوحي؟", a: "غار حراء"}, {q: "من هو النبي الذي ابتلعه الحوت؟", a: "يونس عليه السلام"}, {q: "من هو النبي الذي شق له البحر؟", a: "موسى عليه السلام"}, {q: "من هو النبي الذي بنى الكعبة مع ابنه؟", a: "إبراهيم عليه السلام"}, {q: "ما اسم ابن إبراهيم الذي شاركه البناء؟", a: "إسماعيل عليه السلام"}, {q: "ما اسم زوجة فرعون المؤمنة؟", a: "آسيا"}, {q: "ما اسم السورة التي لا تبدأ بالبسملة؟", a: "التوبة"}, {q: "كم عدد أجزاء القرآن؟", a: "30 جزءًا"}, {q: "كم عدد السجدات في القرآن؟", a: "15 سجدة"}, {q: "ما السورة التي تعدل ثلث القرآن؟", a: "الإخلاص"}, {q: "ما هي أطول آية في القرآن؟", a: "آية الدين (البقرة 282)"}, {q: "من هو أول مؤذن في الإسلام؟", a: "بلال بن رباح"}, {q: "من هو كاتب الوحي الأشهر؟", a: "زيد بن ثابت"}, {q: "ما اسم غزوة المسلمين الأولى؟", a: "بدر"}, {q: "في أي شهر وقعت غزوة بدر؟", a: "رمضان"}, {q: "ما اسم المعركة التي وقعت في أحد؟", a: "غزوة أحد"}, {q: "من هو الصحابي الملقب بسيف الله؟", a: "خالد بن الوليد"}, {q: "من هو الصحابي الذي اهتز لموته عرش الرحمن؟", a: "سعد بن معاذ"}, {q: "من هو الذي لُقب بالصديق؟", a: "أبو بكر الصديق"}, {q: "من هو الذي لُقب بالفاروق؟", a: "عمر بن الخطاب"}, {q: "من هو ثالث الخلفاء الراشدين؟", a: "عثمان بن عفان"}, {q: "من هو رابع الخلفاء الراشدين؟", a: "علي بن أبي طالب"}, {q: "كم عدد الأشهر الحرم؟", a: "4"}, {q: "ماهي الأشهر الحرم؟", a: "ذو القعدة، ذو الحجة، محرم، رجب"}, {q: "ما أول قبلة للمسلمين؟", a: "المسجد الأقصى"}, {q: "أين يقع المسجد الأقصى؟", a: "القدس"}, {q: "كم عدد ركعات صلاة الجمعة؟", a: "2"}, {q: "ما اسم صلاة الليل؟", a: "قيام الليل"}, {q: "ما اسم الصيام المفروض؟", a: "صيام رمضان"}, {q: "ما معنى كلمة “إسلام”؟", a: "الاستسلام لله"}, {q: "ما معنى “قرآن”؟", a: "كلام الله المنزل"}, {q: "كم عدد الأنبياء في القرآن؟", a: "25 نبيًا"}, {q: "من هو أول نبي؟", a: "آدم عليه السلام"}, {q: "من هو آخر نبي؟", a: "محمد ﷺ"}, {q: "ما اسم جبل الذي نزل فيه الوحي؟", a: "جبل النور"}, {q: "ما اسم الهجرة من مكة إلى المدينة؟", a: "الهجرة النبوية"}, {q: "ما اسم العام الذي وقعت فيه الهجرة؟", a: "622 ميلادي"}, {q: "ما اسم أخت النبي من الرضاعة؟", a: "الشيماء"}, {q: "ما اسم عم النبي الذي كان يحميه؟", a: "أبو طالب"}, {q: "ما اسم الغار الذي اختبأ فيه النبي في الهجرة؟", a: "غار ثور"}, {q: "ما السورة التي ذُكر فيها البسملة مرتين؟", a: "النمل"}, {q: "كم عدد آيات سورة البقرة؟", a: "286"}, {q: "ما السورة التي تُسمى قلب القرآن؟", a: "يس"}, {q: "ما السورة التي تبدأ بـ “تبارك”؟", a: "الملك"}, {q: "ما السورة التي تحدثت عن مريم؟", a: "سورة مريم"}, {q: "ما السورة التي فيها قصة أصحاب الفيل؟", a: "الفيل"}, {q: "ما السورة التي تتحدث عن لقمان؟", a: "لقمان"}, {q: "ما اسم النبي الذي كان نجارًا؟", a: "زكريا عليه السلام"}, {q: "من هو النبي الذي صبر على البلاء؟", a: "أيوب عليه السلام"}, {q: "من هو النبي الذي كان ملكًا ونبيًا؟", a: "داود عليه السلام"}, {q: "ما الكتاب الذي أُعطي لداود؟", a: "الزبور"}, {q: "ما الكتاب الذي أُعطي لموسى؟", a: "التوراة"}, {q: "ما الكتاب الذي أُعطي لعيسى؟", a: "الإنجيل"}, {q: "كم عدد التكبيرات في صلاة العيد (الأولى)؟", a: "7 تكبيرات"}, {q: "ما اسم الملَك المسؤول عن النفخ في الصور؟", a: "إسرافيل"}, {q: "ما اسم ملك الموت؟", a: "عزرائيل"}, {q: "ما أول ما يُحاسب عليه العبد يوم القيامة؟", a: "الصلاة"}, {q: "ما اسم الحوض الذي يشرب منه المؤمنون؟", a: "حوض الكوثر"}, {q: "ما اسم الجسر على جهنم؟", a: "الصراط"}, {q: "ما اسم الميزان يوم القيامة؟", a: "الميزان"}, {q: "كم عدد أبواب الجنة؟", a: "8"}, {q: "كم عدد أبواب النار؟", a: "7"}, {q: "ما أعلى درجة في الجنة؟", a: "الفردوس الأعلى"}, {q: "ما اسم نهر في الجنة؟", a: "الكوثر"}, {q: "ما أول ما نزل من القرآن؟", a: "اقرأ باسم ربك"}, {q: "أين نزل أول الوحي؟", a: "غار حراء"}, {q: "كم مدة نزول القرآن؟", a: "23 سنة"}, {q: "ما اسم السنة التي تسمى عام الحزن؟", a: "وفاة أبو طالب وخديجة"}, {q: "ما اسم المعجزة الكبرى للنبي ﷺ؟", a: "القرآن الكريم"}, {q: "ما معنى الإيمان بالقضاء والقدر؟", a: "الإيمان بأن كل شيء بتقدير الله"} ],
-            'كورة': [ {q: "لاعبين بالملعب؟", a: "11"}, {q: "مدة المباراة؟", a: "90 دقيقة"}, {q: "كأس العالم؟", a: "FIFA"}, {q: "الأشواط؟", a: "2"}, {q: "البطاقات؟", a: "2 (ص/ح)"}, {q: "لون الطرد؟", a: "حمراء"}, {q: "لون الإنذار؟", a: "صفراء"}, {q: "أفضل لاعب؟", a: "الكرة الذهبية"}, {q: "من ينظم؟", a: "FIFA"}, {q: "بطولة أوروبا؟", a: "يورو"}, {q: "نادي ميسي 2025؟", a: "إنتر ميامي"}, {q: "نادي رونالدو؟", a: "النصر"}, {q: "ريال مدريد؟", a: "ريال مدريد"}, {q: "برشلونة؟", a: "برشلونة"}, {q: "دوري إنجلترا؟", a: "البريميرليغ"}, {q: "التبديلات؟", a: "5"}, {q: "هاتريك؟", a: "3 أهداف"}, {q: "Goalkeeper؟", a: "حارس المرمى"}, {q: "مخترع الكرة؟", a: "إنجلترا"}, {q: "فرق مونديال 2022؟", a: "32"}, {q: "بطل 2022؟", a: "الأرجنتين"}, {q: "بطل 2018؟", a: "فرنسا"}, {q: "ملعب الريال؟", a: "برنابيو"}, {q: "ملعب برشلونة؟", a: "كامب نو"}, {q: "دوري إسبانيا؟", a: "لاليغا"}, {q: "دوري الأبطال؟", a: "كأس أوروبا"}, {q: "خط التماس؟", a: "Sideline"}, {q: "منطقة الجزاء؟", a: "Penalty box"}, {q: "كلوزه", a: "هداف المونديال"}, {q: "100+", a: "أهداف ميسي"}, {q: "120+", a: "أهداف رونالدو"}, {q: "15", a: "أبطال ريال مدريد"}, {q: "5", a: "أبطال برشلونة"}, {q: "إيطاليا", a: "بطل يورو 2020"}, {q: "البلوز", a: "تشيلسي"}, {q: "شياطين حمر", a: "مانشستر يونايتد"}, {q: "سيدة عجوز", a: "يوفنتوس"}, {q: "غوارديولا", a: "مدرب السيتي"}, {q: "البرازيل (5)", a: "أكثر فوز مونديال"}, {q: "ألمانيا (4)", a: "ثاني أكثر فوز"}, {q: "مبابي", a: "أسرع لاعب"}, {q: "ريال مدريد", a: "نادي مبابي 2025"}, {q: "هالاند", a: "هداف إنجلترا 2023"}, {q: "VAR", a: "حكم الفيديو"}, {q: "أمريكا/كندا/مكسيك", a: "مستضيف 2026"}, {q: "48", a: "فرق 2026"}, {q: "فينيسيوس", a: "مسجل نهائي 2024"}, {q: "سانتوس", a: "نادي نيمار 2025"}, {q: "ليفربول", a: "نادي صلاح"}, {q: "رونالدو", a: "هداف الأبطال"}, {q: "ميسي (8)", a: "أكثر كرة ذهبية"}, {q: "أوروغواي 1930", a: "أول بطل مونديال"}, {q: "مارادونا", a: "يد الله"}, {q: "1986", a: "سنة يد الله"}, {q: "قطر", a: "بطل آسيا 2023"}, {q: "UEFA", a: "اتحاد أوروبا"} ],
-            'ثقافة': [ {q: "أكبر كوكب؟", a: "المشتري"}, {q: "أطول نهر أفريقيا؟", a: "النيل"}, {q: "قارة الوطن العربي؟", a: "آسيا وأفريقيا"}, {q: "كتاب النبي؟", a: "القرآن"}, {q: "عاصمة السعودية؟", a: "الرياض"}, {q: "أعلى جبل؟", a: "إيفرست"}, {q: "366", a: "أيام السنة الكبيسة"}, {q: "الهادئ", a: "أكبر محيط"}, {q: "الجمل", a: "يعيش في الصحراء"}, {q: "الريال", a: "عملة السعودية"}, {q: "عطارد", a: "أقرب كوكب"}, {q: "الأنديز", a: "أطول سلسلة جبال"}, {q: "آسيا", a: "أكبر قارة"}, {q: "أستراليا", a: "أصغر قارة"}, {q: "روسيا", a: "أكبر دولة"}, {q: "الفاتيكان", a: "أصغر دولة"}, {q: "برتغالية", a: "لغة البرازيل"}, {q: "تركية", a: "لغة تركيا"}, {q: "أحمر", a: "لون الدم"}, {q: "الحوت", a: "حيوان يلد بالماء"}, {q: "نعامة", a: "طائر لا يطير"}, {q: "فهد", a: "أسرع بري"}, {q: "مريخ", a: "كوكب أحمر"}, {q: "قمر", a: "قمر الأرض"}, {q: "أكسجين", a: "غاز تنفس"}, {q: "هاتف", a: "جهاز كلام"}, {q: "جلد", a: "أكبر عضو"}, {q: "خلية", a: "أصغر عضو"}, {q: "أسد", a: "ملك الغابة"}, {q: "حصان", a: "ينام واقفا"}, {q: "طوكيو", a: "عاصمة اليابان"}, {q: "بكين", a: "عاصمة الصين"}, {q: "سيول", a: "عاصمة كوريا ج"}, {q: "برلين", a: "عاصمة ألمانيا"}, {q: "باريس", a: "عاصمة فرنسا"}, {q: "روما", a: "عاصمة إيطاليا"}, {q: "مدريد", a: "عاصمة إسبانيا"}, {q: "موسكو", a: "عاصمة روسيا"}, {q: "أوتاوا", a: "عاصمة كندا"}, {q: "واشنطن", a: "عاصمة أمريكا"}, {q: "نيودلهي", a: "عاصمة الهند"}, {q: "اليانغتسي", a: "أطول نهر آسيا"}, {q: "الصحراء الكبرى", a: "أكبر صحراء"}, {q: "بحر قزوين", a: "أكبر بحيرة"}, {q: "آنغل", a: "أعلى شلال"}, {q: "تبت", a: "أعلى هضبة"}, {q: "هيدروجين", a: "أخف غاز"}, {q: "أوزميوم", a: "أثقل معدن"}, {q: "أبو شراع", a: "أسرع سمكة"}, {q: "كنغر جرابي", a: "لا يشرب كثيرا"}, {q: "جزائر", a: "أكبر دولة أفريقيا"}, {q: "أستراليا", a: "أصغر سكان"}, {q: "صين", a: "اخترع الورق"}, {q: "صين", a: "اخترع الطباعة"}, {q: "صين", a: "أول عملة ورقية"}, {q: "دانيانغ", a: "أطول جسر"}, {q: "خوانق 3", a: "أكبر سد"}, {q: "طوكيو", a: "أكبر مدينة"}, {q: "إمارات", a: "برج خليفة"}, {q: "برج خليفة", a: "أطول مبنى"}, {q: "بحر قزوين", a: "أكبر بحر داخلي"}, {q: "أنتاركتيكا", a: "قارة قطبية ج"}, {q: "صقر", a: "أسرع طائر"}, {q: "سلحفاة", a: "يعيش +100 سنة"}, {q: "حرباء", a: "يغير لونه"}, {q: "تمساح", a: "أقوى عضة"}, {q: "جرينلاند", a: "أكبر جزيرة"}, {q: "أندروميدا", a: "أقرب مجرة"}, {q: "درب التبانة", a: "مجرتنا"}, {q: "عطارد", a: "أصغر كوكب"}, {q: "إكوادور", a: "بلا عملة رسمية"}, {q: "سويد", a: "أكثر جزر"}, {q: "فولغا", a: "أطول نهر أوروبا"}, {q: "سومرية", a: "أقدم حضارة"}, {q: "مسمارية", a: "أول كتابة"}, {q: "قرويين", a: "أول جامعة"}, {q: "يونان", a: "أولمبياد"}, {q: "زوسر", a: "أقدم هرم"}, {q: "غاغارين", a: "أول بالفضاء"}, {q: "أرمسترونغ", a: "أول بالقمر"}, {q: "أبولو 11", a: "أول مركبة قمر"}, {q: "100 عام", a: "أطول حرب"}, {q: "38 دقيقة", a: "أقصر حرب"}, {q: "تركيا", a: "دولة بقارتين"}, {q: "سعودية", a: "بلا أنهار طبيعية"}, {q: "أنتاركتيكا", a: "أكبر صحراء"}, {q: "ماريانا", a: "أعمق نقطة"}, {q: "إيفرست", a: "أعلى نقطة"}, {q: "هند", a: "اخترعت الصفر"}, {q: "نيوتن", a: "قوانين الحركة"}, {q: "آينشتاين", a: "النسبية"}, {q: "هيدروجين", a: "أصغر ذرة"}, {q: "ضوء", a: "أسرع جسيم"}, {q: "شمس", a: "أقرب نجم"}, {q: "زهرة", a: "أقرب كوكب"}, {q: "نبتون", a: "أبعد كوكب"}, {q: "غانيميد", a: "أكبر قمر"}, {q: "هيدروجين", a: "أخف عنصر"}, {q: "نيتروجين", a: "أوفر غاز"}, {q: "رياح شمسية", a: "شفق قطبي"} ]
+            'عام': [ {q: "كم عدد أيام الأسبوع؟", a: "7"}, {q: "ما عاصمة السعودية؟", a: "الرياض"}, {q: "كم عدد شهور السنة؟", a: "12"}, {q: "ما لون السماء؟", a: "أزرق"}, {q: "كم عدد أصابع اليد الواحدة؟", a: "5"}, {q: "ما الكوكب الذي نعيش عليه؟", a: "الأرض"}, {q: "ما الحيوان المعروف بملك الغابة؟", a: "الأسد"}, {q: "كم عدد القارات؟", a: "7"}, {q: "ما عاصمة فرنسا؟", a: "باريس"}, {q: "ما الغاز الذي نتنفسه؟", a: "الأكسجين"}, {q: "كم عدد الحواس؟", a: "5"}, {q: "ما أسرع حيوان بري؟", a: "الفهد"}, {q: "ما أكبر محيط؟", a: "المحيط الهادئ"}, {q: "كم عدد أضلع المثلث؟", a: "3"}, {q: "ما عاصمة مصر؟", a: "القاهرة"}, {q: "ما لون الدم؟", a: "أحمر"}, {q: "كم عدد أركان الإسلام؟", a: "5"}, {q: "ما الكوكب الأحمر؟", a: "المريخ"}, {q: "ما الحيوان الذي يعيش في الماء؟", a: "السمك"}, {q: "كم عدد أيام السنة؟", a: "365"}, {q: "ما اسم القمر الخاص بالأرض؟", a: "القمر"}, {q: "ما عاصمة اليابان؟", a: "طوكيو"}, {q: "كم عدد أرجل العنكبوت؟", a: "8"}, {q: "ما الحيوان الذي يطير؟", a: "الطيور"}, {q: "ما عاصمة بريطانيا؟", a: "لندن"}, {q: "كم عدد ألوان قوس قزح؟", a: "7"}, {q: "ما الجهاز الذي نستخدمه للاتصال؟", a: "الهاتف"}, {q: "ما الحيوان الذي يعطي الحليب؟", a: "البقرة"}, {q: "ما عاصمة إيطاليا؟", a: "روما"}, {q: "ما أكبر كوكب؟", a: "المشتري"}, {q: "ما عاصمة كندا؟", a: "أوتاوا"}, {q: "ما العنصر الذي رمزه O؟", a: "الأكسجين"}, {q: "كم عدد عظام الإنسان البالغ؟", a: "206"}, {q: "ما أكبر دولة في العالم؟", a: "روسيا"}, {q: "ما العملية التي تصنع بها النباتات غذاءها؟", a: "البناء الضوئي"}, {q: "ما أطول نهر في العالم؟", a: "النيل"}, {q: "ما العملة في اليابان؟", a: "الين"}, {q: "ما أسرع طائر؟", a: "الصقر"}, {q: "ما أكبر قارة؟", a: "آسيا"}, {q: "ما عاصمة ألمانيا؟", a: "برلين"}, {q: "ما الحيوان الذي يُسمى سفينة الصحراء؟", a: "الجمل"}, {q: "ما الغاز الذي يسبب الاحتباس الحراري؟", a: "ثاني أكسيد الكربون"}, {q: "ما عاصمة تركيا؟", a: "أنقرة"}, {q: "كم عدد أسنان الإنسان البالغ؟", a: "32"}, {q: "ما أصغر كوكب؟", a: "عطارد"}, {q: "ما اسم مجرة الأرض؟", a: "درب التبانة"}, {q: "ما الحيوان الذي يبيض ولا يلد؟", a: "الطيور"}, {q: "ما عاصمة إسبانيا؟", a: "مدريد"}, {q: "ما أكبر عضو في جسم الإنسان؟", a: "الجلد"}, {q: "ما وحدة قياس الطول؟", a: "المتر"}, {q: "ما عاصمة الصين؟", a: "بكين"}, {q: "ما الحيوان الذي يعيش أطول؟", a: "السلحفاة"}, {q: "ما وحدة قياس الوزن؟", a: "الكيلوغرام"}, {q: "ما عاصمة روسيا؟", a: "موسكو"}, {q: "ما أسرع سمكة؟", a: "سمكة أبو شراع"}, {q: "ما عاصمة الهند؟", a: "نيودلهي"}, {q: "ما أكبر غدة في جسم الإنسان؟", a: "الكبد"}, {q: "ما عدد الدول العربية؟", a: "22"}, {q: "ما عاصمة الأرجنتين؟", a: "بوينس آيرس"}, {q: "ما اسم كوكب زحل بالإنجليزية؟", a: "Saturn"}, {q: "ما عاصمة جنوب أفريقيا الإدارية؟", a: "بريتوريا"}, {q: "ما الحيوان الذي يغير لونه؟", a: "الحرباء"}, {q: "ما عاصمة السويد؟", a: "ستوكهولم"}, {q: "ما العنصر الذي رمزه Na؟", a: "الصوديوم"}, {q: "ما عاصمة النرويج؟", a: "أوسلو"}, {q: "ما أعلى شلال في العالم؟", a: "شلالات آنجل"}, {q: "ما عاصمة المكسيك؟", a: "مكسيكو سيتي"}, {q: "ما عدد الكواكب في المجموعة الشمسية؟", a: "8"}, {q: "ما عاصمة كوريا الجنوبية؟", a: "سيول"}, {q: "ما العضو المسؤول عن ضخ الدم؟", a: "القلب"}, {q: "ما الدولة التي لا تملك جيشًا؟", a: "كوستاريكا"}, {q: "ما العنصر الذي رمزه Fe؟", a: "الحديد"}, {q: "ما أكبر صحراء غير قطبية؟", a: "الصحراء الكبرى"}, {q: "ما أسرع كائن بحري؟", a: "سمكة أبو شراع"}, {q: "ما أطول سلسلة جبال في العالم؟", a: "الأنديز"}, {q: "ما عاصمة نيوزيلندا؟", a: "ويلينغتون"}, {q: "ما أعلى جبل في أفريقيا؟", a: "كليمنجارو"}, {q: "ما اللغة الأكثر انتشارًا في العالم؟", a: "الإنجليزية"}, {q: "ما الدولة التي تضم أكبر عدد من الجزر؟", a: "السويد"}, {q: "ما أكبر بحيرة في العالم؟", a: "بحر قزوين"}, {q: "ما اسم أطول نهر في أوروبا؟", a: "الفولغا"}, {q: "ما الدولة التي اخترعت الورق؟", a: "الصين"}, {q: "ما أول دولة استخدمت العملة الورقية؟", a: "الصين"}, {q: "ما العنصر الأكثر وفرة في الكون؟", a: "الهيدروجين"}, {q: "ما أصغر دولة في العالم؟", a: "الفاتيكان"}, {q: "ما أكبر عضو داخلي في جسم الإنسان؟", a: "الكبد"}, {q: "ما الدولة التي تقع فيها صحراء أتاكاما؟", a: "تشيلي"}, {q: "ما أعلى مبنى في العالم؟", a: "برج خليفة"}, {q: "ما أول قارة اكتُشفت؟", a: "أفريقيا"}, {q: "ما الدولة التي لديها أكبر عدد سكان؟", a: "الهند"}, {q: "ما أطول نهر في آسيا؟", a: "اليانغتسي"}, {q: "ما عاصمة سويسرا؟", a: "برن"}, {q: "ما الحيوان الذي يملك ذاكرة قوية جدًا؟", a: "الفيل"}, {q: "ما العنصر الذي رمزه Au؟", a: "الذهب"}, {q: "ما أكبر بركان نشط في العالم؟", a: "ماونا لوا"}, {q: "ما أسرع حيوان مائي؟", a: "سمكة أبو شراع"}, {q: "ما الدولة التي تشتهر بالتانغو؟", a: "الأرجنتين"}, {q: "ما أعلى هضبة في العالم؟", a: "هضبة التبت"}, {q: "ما الدولة التي تُعرف بأرض الشمس المشرقة؟", a: "اليابان"}, {q: "ما أول من دار حول الأرض؟", a: "يوري غاغارين"} ],
+            'دين': [ {q: "كم عدد أركان الإسلام؟", a: "5"}, {q: "ما هي الشهادة؟", a: "لا إله إلا الله محمد رسول الله"}, {q: "كم عدد الصلوات المفروضة؟", a: "5"}, {q: "ما قبلة المسلمين؟", a: "الكعبة"}, {q: "في أي شهر يصوم المسلمون؟", a: "رمضان"}, {q: "ما اسم كتاب المسلمين؟", a: "القرآن الكريم"}, {q: "كم عدد أركان الإيمان؟", a: "6"}, {q: "من هو خاتم الأنبياء؟", a: "محمد ﷺ"}, {q: "ما أول سورة في القرآن؟", a: "الفاتحة"}, {q: "ما آخر سورة في القرآن؟", a: "الناس"}, {q: "ما أطول سورة في القرآن؟", a: "البقرة"}, {q: "ما أقصر سورة في القرآن؟", a: "الكوثر"}, {q: "كم عدد سور القرآن؟", a: "114"}, {q: "في أي مدينة ولد النبي ﷺ؟", a: "مكة"}, {q: "في أي مدينة توفي النبي ﷺ؟", a: "المدينة المنورة"}, {q: "ما اسم والدة النبي ﷺ؟", a: "آمنة بنت وهب"}, {q: "ما اسم والد النبي ﷺ؟", a: "عبد الله بن عبد المطلب"}, {q: "من أول الخلفاء الراشدين؟", a: "أبو بكر الصديق"}, {q: "كم عدد الركعات في صلاة الفجر؟", a: "2"}, {q: "كم عدد الركعات في صلاة الظهر؟", a: "4"}, {q: "كم عدد الركعات في صلاة المغرب؟", a: "3"}, {q: "كم عدد الركعات في صلاة العشاء؟", a: "4"}, {q: "ما اسم أول مسجد في الإسلام؟", a: "مسجد قباء"}, {q: "ما اسم المسجد الحرام في مكة؟", a: "المسجد الحرام"}, {q: "ما اسم المسجد في المدينة؟", a: "المسجد النبوي"}, {q: "من أول من أسلم من الرجال؟", a: "أبو بكر الصديق"}, {q: "من أول من أسلم من النساء؟", a: "خديجة بنت خويلد"}, {q: "من أول من أسلم من الصبيان؟", a: "علي بن أبي طالب"}, {q: "ما اسم الملك الموكل بالوحي؟", a: "جبريل عليه السلام"}, {q: "ما هي ليلة خير من ألف شهر؟", a: "ليلة القدر"}, {q: "في أي غار نزل الوحي؟", a: "غار حراء"}, {q: "من هو النبي الذي ابتلعه الحوت؟", a: "يونس عليه السلام"}, {q: "من هو النبي الذي شق له البحر؟", a: "موسى عليه السلام"}, {q: "من هو النبي الذي بنى الكعبة مع ابنه؟", a: "إبراهيم عليه السلام"}, {q: "ما اسم ابن إبراهيم الذي شاركه البناء؟", a: "إسماعيل عليه السلام"}, {q: "ما اسم زوجة فرعون المؤمنة؟", a: "آسيا"}, {q: "ما اسم السورة التي لا تبدأ بالبسملة؟", a: "التوبة"}, {q: "كم عدد أجزاء القرآن؟", a: "30 جزءًا"}, {q: "كم عدد السجدات في القرآن؟", a: "15 سجدة"}, {q: "ما السورة التي تعدل ثلث القرآن؟", a: "الإخلاص"}, {q: "ما هي أطول آية في القرآن؟", a: "آية الدين (البقرة 282)"}, {q: "من هو أول مؤذن في الإسلام؟", a: "بلال بن رباح"}, {q: "من هو كاتب الوحي الأشهر؟", a: "زيد بن ثابت"}, {q: "ما اسم غزوة المسلمين الأولى؟", a: "بدر"}, {q: "في أي شهر وقعت غزوة بدر؟", a: "رمضان"}, {q: "ما اسم المعركة التي وقعت في أحد؟", a: "غزوة أحد"}, {q: "من هو الصحابي الملقب بسيف الله؟", a: "خالد بن الوليد"}, {q: "من هو الصحابي الذي اهتز لموته عرش الرحمن؟", a: "سعد بن معاذ"}, {q: "من هو الذي لُقب بالصديق؟", a: "أبو بكر الصديق"}, {q: "من هو الذي لُقب بالفاروق؟", a: "عمر بن الخطاب"}, {q: "من هو ثالث الخلفاء الراشدين؟", a: "عثمان بن عفان"}, {q: "من هو رابع الخلفاء الراشدين؟", a: "علي بن أبي طالب"}, {q: "كم عدد الأشهر الحرم؟", a: "4"}, {q: "ذو القعدة، ذو الحجة، محرم، رجب", a: "الأشهر الحرم"}, {q: "ما أول قبلة للمسلمين؟", a: "المسجد الأقصى"}, {q: "أين يقع المسجد الأقصى؟", a: "القدس"}, {q: "كم عدد ركعات صلاة الجمعة؟", a: "2"}, {q: "ما اسم صلاة الليل؟", a: "قيام الليل"}, {q: "ما اسم الصيام المفروض؟", a: "صيام رمضان"}, {q: "ما معنى كلمة “إسلام”؟", a: "الاستسلام لله"}, {q: "ما معنى “قرآن”؟", a: "كلام الله المنزل"}, {q: "كم عدد الأنبياء في القرآن؟", a: "25 نبيًا"}, {q: "من هو أول نبي؟", a: "آدم عليه السلام"}, {q: "من هو آخر نبي؟", a: "محمد ﷺ"}, {q: "ما اسم جبل الذي نزل فيه الوحي؟", a: "جبل النور"}, {q: "ما اسم الهجرة من مكة إلى المدينة؟", a: "الهجرة النبوية"}, {q: "ما اسم العام الذي وقعت فيه الهجرة؟", a: "622 ميلادي"}, {q: "ما اسم أخت النبي من الرضاعة؟", a: "الشيماء"}, {q: "ما اسم عم النبي الذي كان يحميه؟", a: "أبو طالب"}, {q: "ما اسم الغار الذي اختبأ فيه النبي في الهجرة؟", a: "غار ثور"}, {q: "ما السورة التي ذُكر فيها البسملة مرتين؟", a: "النمل"}, {q: "كم عدد آيات سورة البقرة؟", a: "286"}, {q: "ما السورة التي تُسمى قلب القرآن؟", a: "يس"}, {q: "ما السورة التي تبدأ بـ “تبارك”؟", a: "الملك"}, {q: "ما السورة التي تحدثت عن مريم؟", a: "سورة مريم"}, {q: "ما السورة التي فيها قصة أصحاب الفيل؟", a: "الفيل"}, {q: "ما السورة التي تتحدث عن لقمان؟", a: "لقمان"}, {q: "ما اسم النبي الذي كان نجارًا؟", a: "زكريا عليه السلام"}, {q: "من هو النبي الذي صبر على البلاء؟", a: "أيوب عليه السلام"}, {q: "من هو النبي الذي كان ملكًا ونبيًا؟", a: "داود عليه السلام"}, {q: "ما الكتاب الذي أُعطي لداود؟", a: "الزبور"}, {q: "ما الكتاب الذي أُعطي لموسى؟", a: "التوراة"}, {q: "ما الكتاب الذي أُعطي لعيسى؟", a: "الإنجيل"}, {q: "كم عدد التكبيرات في صلاة العيد (الأولى)؟", a: "7 تكبيرات"}, {q: "ما اسم الملَك المسؤول عن النفخ في الصور؟", a: "إسرافيل"}, {q: "ما اسم ملك الموت؟", a: "عزرائيل"}, {q: "ما أول ما يُحاسب عليه العبد يوم القيامة؟", a: "الصلاة"}, {q: "ما اسم الحوض الذي يشرب منه المؤمنون؟", a: "حوض الكوثر"}, {q: "ما اسم الجسر على جهنم؟", a: "الصراط"}, {q: "ما اسم الميزان يوم القيامة؟", a: "الميزان"}, {q: "كم عدد أبواب الجنة؟", a: "8"}, {q: "كم عدد أبواب النار؟", a: "7"}, {q: "ما أعلى درجة في الجنة؟", a: "الفردوس الأعلى"}, {q: "ما اسم نهر في الجنة؟", a: "الكوثر"}, {q: "ما أول ما نزل من القرآن؟", a: "اقرأ باسم ربك"}, {q: "أين نزل أول الوحي؟", a: "غار حراء"}, {q: "كم مدة نزول القرآن؟", a: "23 سنة"}, {q: "ما اسم السنة التي تسمى عام الحزن؟", a: "وفاة أبو طالب وخديجة"}, {q: "ما اسم المعجزة الكبرى للنبي ﷺ؟", a: "القرآن الكريم"}, {q: "ما معنى الإيمان بالقضاء والقدر؟", a: "الإيمان بأن كل شيء بتقدير الله"} ],
+            'كورة': [ {q: "كم عدد لاعبي الفريق في الملعب؟", a: "11"}, {q: "كم مدة المباراة؟", a: "90 دقيقة"}, {q: "FIFA World Cup", a: "كأس العالم"}, {q: "2", a: "عدد الأشواط"}, {q: "2", a: "بطاقات التحكيم"}, {q: "حمراء", a: "لون الطرد"}, {q: "صفراء", a: "لون الإنذار"}, {q: "الكرة الذهبية", a: "أفضل لاعب"}, {q: "FIFA", a: "منظم كأس العالم"}, {q: "يورو", a: "بطولة أوروبا"}, {q: "إنتر ميامي", a: "نادي ميسي 2025"}, {q: "النصر", a: "نادي رونالدو"}, {q: "ريال مدريد", a: "ريال مدريد"}, {q: "برشلونة", a: "برشلونة"}, {q: "Premier League", a: "الدوري الإنجليزي"}, {q: "5", a: "تبديلات الفريق"}, {q: "3 أهداف", a: "هاتريك"}, {q: "Goalkeeper", a: "حارس المرمى"}, {q: "إنجلترا", a: "مخترع الكرة"}, {q: "32", a: "فرق كأس العالم 2022"}, {q: "الأرجنتين", a: "بطل 2022"}, {q: "فرنسا", a: "بطل 2018"}, {q: "برنابيو", a: "ملعب ريال مدريد"}, {q: "كامب نو", a: "ملعب برشلونة"}, {q: "La Liga", a: "دوري إسبانيا"}, {q: "دوري الأبطال", a: "كأس أوروبا"}, {q: "2", a: "شوط المباراة"}, {q: "Sideline", a: "خط التماس"}, {q: "Penalty box", a: "منطقة الجزاء"}, {q: "1", a: "حكم رئيسي"}, {q: "كلوزه", a: "هداف المونديال"}, {q: "100+", a: "أهداف ميسي دوليا"}, {q: "120+", a: "أهداف رونالدو دوليا"}, {q: "15", a: "أبطال ريال مدريد"}, {q: "5", a: "أبطال برشلونة"}, {q: "إيطاليا", a: "بطل يورو 2020"}, {q: "البرتغال", a: "بطل يورو 2016"}, {q: "تشيلسي", a: "البلوز"}, {q: "مان يونايتد", a: "الشياطين الحمر"}, {q: "يوفنتوس", a: "السيدة العجوز"}, {q: "غوارديولا", a: "مدرب السيتي"}, {q: "20", a: "دوري مانشستر ي"}, {q: "35+", a: "دوري ريال مدريد"}, {q: "5", a: "مونديال البرازيل"}, {q: "4", a: "ألمانيا مونديال"}, {q: "3", a: "الأرجنتين مونديال"}, {q: "مبابي", a: "أسرع لاعب"}, {q: "ريال مدريد", a: "نادي مبابي 2025"}, {q: "مانشستر سيتي", a: "نادي هالاند"}, {q: "هالاند", a: "هداف إنجلترا 2023"}, {q: "Coppa Italia", a: "كأس إيطاليا"}, {q: "Serie A", a: "دوري إيطاليا"}, {q: "Bundesliga", a: "دوري ألمانيا"}, {q: "Ligue 1", a: "دوري فرنسا"}, {q: "Super Cup", a: "كأس السوبر"}, {q: "2 (30د)", a: "شوط إضافي"}, {q: "VAR", a: "حكم فيديو"}, {q: "2-4", a: "حكام VAR"}, {q: "أمريكا/كندا/مكسيك", a: "مستضيف 2026"}, {q: "48", a: "فرق 2026"}, {q: "ريال مدريد", a: "بطل 2024"}, {q: "فينيسيوس", a: "مسجل نهائي 2024"}, {q: "سانتوس", a: "نادي نيمار 2025"}, {q: "ليفربول", a: "نادي صلاح"}, {q: "يورغن كلوب", a: "مدرب ليفربول"}, {q: "بايرن", a: "نادي كين"}, {q: "مصر", a: "دولة صلاح"}, {q: "الأرجنتين", a: "دولة ميسي"}, {q: "البرتغال", a: "دولة رونالدو"}, {q: "أرسنال", a: "نادي أرسنال"}, {q: "رونالدو", a: "هداف الأبطال"}, {q: "140+", a: "أهداف رونالدو بالأبطال"}, {q: "120+", a: "أهداف ميسي بالأبطال"}, {q: "ميسي (8)", a: "أكثر كرة ذهبية"}, {q: "8", a: "كرة ميسي"}, {q: "5", a: "كرة رونالدو"}, {q: "آرسنال", a: "لم يهبط بالبريميرليغ"}, {q: "أوروغواي 1930", a: "أول بطل مونديال"}, {q: "مارادونا", a: "يد الله"}, {q: "1986", a: "سنة يد الله"}, {q: "تشيلسي", a: "بطل 2012"}, {q: "بايرن", a: "بطل 2013"}, {q: "برشلونة", a: "بطل 2015"}, {q: "ليفربول", a: "بطل 2019"}, {q: "بايرن", a: "بطل 2020"}, {q: "تشيلسي", a: "بطل 2021"}, {q: "ريال مدريد", a: "بطل 2022"}, {q: "مان سيتي", a: "بطل 2023"}, {q: "10-1", a: "أكبر فوز مونديال"}, {q: "هاكان شوكور (11ث)", a: "أسرع هدف مونديال"}, {q: "الأرجنتين", a: "دولة ميسي"}, {q: "7", a: "رقم رونالدو"}, {q: "10", a: "رقم ميسي"}, {q: "100-110م", a: "طول الملعب"}, {q: "64-75م", a: "عرض الملعب"}, {q: "ميسي", a: "أكثر صناعة"}, {q: "رونالدو", a: "أكثر سجل"}, {q: "إنتر ميامي", a: "نادي أمريكي"}, {q: "قطر", a: "بطل كأس آسيا"}, {q: "UEFA", a: "اتحاد أوروبا"} ],
+            'ثقافة': [ {q: "ما اسم أكبر كوكب؟", a: "المشتري"}, {q: "ما اسم أطول نهر في أفريقيا؟", a: "النيل"}, {q: "ما اسم القارة التي نعيش فيها (الوطن العربي)؟", a: "آسيا وأفريقيا"}, {q: "ما اسم الكتاب الذي نزل على النبي ﷺ؟", a: "القرآن الكريم"}, {q: "ما اسم عاصمة السعودية؟", a: "الرياض"}, {q: "ما اسم أعلى جبل في العالم؟", a: "إيفرست"}, {q: "366", a: "أيام السنة الكبيسة"}, {q: "الهادئ", a: "أكبر محيط"}, {q: "الجمل", a: "يعيش في الصحراء"}, {q: "الريال", a: "عملة السعودية"}, {q: "عطارد", a: "أقرب كوكب"}, {q: "الأنديز", a: "أطول سلسلة جبال"}, {q: "آسيا", a: "أكبر قارة"}, {q: "أستراليا", a: "أصغر قارة"}, {q: "روسيا", a: "أكبر دولة"}, {q: "الفاتيكان", a: "أصغر دولة"}, {q: "برتغالية", a: "لغة البرازيل"}, {q: "تركية", a: "لغة تركيا"}, {q: "أحمر", a: "لون الدم"}, {q: "الحوت", a: "يلد بالماء"}, {q: "النعامة", a: "طائر لا يطير"}, {q: "الفهد", a: "أسرع بري"}, {q: "المريخ", a: "كوكب أحمر"}, {q: "القمر", a: "قمر الأرض"}, {q: "الأكسجين", a: "غاز تنفس"}, {q: "هاتف", a: "جهاز كلام"}, {q: "جلد", a: "أكبر عضو"}, {q: "خلية", a: "أصغر عضو"}, {q: "أسد", a: "ملك الغابة"}, {q: "حصان", a: "ينام واقفا"}, {q: "طوكيو", a: "عاصمة اليابان"}, {q: "بكين", a: "عاصمة الصين"}, {q: "سيول", a: "عاصمة كوريا ج"}, {q: "برلين", a: "عاصمة ألمانيا"}, {q: "باريس", a: "عاصمة فرنسا"}, {q: "روما", a: "عاصمة إيطاليا"}, {q: "مدريد", a: "عاصمة إسبانيا"}, {q: "موسكو", a: "عاصمة روسيا"}, {q: "أوتاوا", a: "عاصمة كندا"}, {q: "واشنطن", a: "عاصمة أمريكا"}, {q: "نيودلهي", a: "عاصمة الهند"}, {q: "اليانغتسي", a: "أطول نهر آسيا"}, {q: "الصحراء الكبرى", a: "أكبر صحراء"}, {q: "بحر قزوين", a: "أكبر بحيرة"}, {q: "آنغل", a: "أعلى شلال"}, {q: "تبت", a: "أعلى هضبة"}, {q: "هيدروجين", a: "أخف غاز"}, {q: "أوزميوم", a: "أثقل معدن"}, {q: "أبو شراع", a: "أسرع سمكة"}, {q: "كنغر جرابي", a: "لا يشرب كثيرا"}, {q: "الجزائر", a: "أكبر دولة أفريقيا"}, {q: "أستراليا", a: "أصغر سكان"}, {q: "الصين", a: "اخترع الورق"}, {q: "الصين", a: "اخترع الطباعة"}, {q: "الصين", a: "أول عملة ورقية"}, {q: "دانيانغ", a: "أطول جسر"}, {q: "خوانق 3", a: "أكبر سد"}, {q: "طوكيو", a: "أكبر مدينة"}, {q: "إمارات", a: "برج خليفة"}, {q: "برج خليفة", a: "أطول مبنى"}, {q: "بحر قزوين", a: "أكبر بحر داخلي"}, {q: "أنتاركتيكا", a: "القارة القطبية ج"}, {q: "الصقر", a: "أسرع طائر"}, {q: "سلحفاة", a: "يعيش +100 سنة"}, {q: "حرباء", a: "تغير لونها"}, {q: "تمساح", a: "أقوى عضة"}, {q: "جرينلاند", a: "أكبر جزيرة"}, {q: "أندروميدا", a: "أقرب مجرة"}, {q: "درب التبانة", a: "مجرتنا"}, {q: "عطارد", a: "أصغر كوكب"}, {q: "إكوادور", a: "بلا عملة رسمية"}, {q: "السويد", a: "أكثر جزر"}, {q: "الفولغا", a: "أطول نهر أوروبا"}, {q: "سومرية", a: "أقدم حضارة"}, {q: "مسمارية", a: "أول كتابة"}, {q: "القرويين", a: "أول جامعة"}, {q: "يونان", a: "اخترعت الأولمبياد"}, {q: "زوسر", a: "أقدم هرم"}, {q: "غاغارين", a: "أول بالفضاء"}, {q: "أرمسترونغ", a: "أول بالقمر"}, {q: "أبولو 11", a: "أول مركبة قمر"}, {q: "100 عام", a: "أطول حرب"}, {q: "38 دقيقة", a: "أقصر حرب"}, {q: "تركيا", a: "دولة بقارتين"}, {q: "سعودية", a: "بلا أنهار طبيعية"}, {q: "أنتاركتيكا", a: "أكبر صحراء"}, {q: "ماريانا", a: "أعمق نقطة"}, {q: "إيفرست", a: "أعلى نقطة"}, {q: "الهند", a: "اخترعت الصفر"}, {q: "نيوتن", a: "قوانين الحركة"}, {q: "آينشتاين", a: "النسبية"}, {q: "هيدروجين", a: "أصغر ذرة"}, {q: "ضوء", a: "أسرع جسيم"}, {q: "شمس", a: "أقرب نجم"}, {q: "زهرة", a: "أقرب كوكب"}, {q: "نبتون", a: "أبعد كوكب"}, {q: "غانيميد", a: "أكبر قمر"}, {q: "هيدروجين", a: "أخف عنصر"}, {q: "نيتروجين", a: "أوفر غاز"}, {q: "رياح شمسية", a: "شفق قطبي"} ]
         };
 
         let p1Name, p2Name, winLimit, tLimit, choiceLimit, diff, isPaused = false;
@@ -144,9 +167,9 @@
         }
 
         function updateSetupUI() {
-            document.querySelectorAll('#p1-cats .cat-card, #p2-cats .cat-card').forEach(c => {
-                const p = (c.parentElement.id === 'p1-cats' ? 1 : 2);
-                const name = c.innerText.slice(2);
+            document.querySelectorAll('#p1-cats-setup .cat-card, #p2-cats-setup .cat-card').forEach(c => {
+                const p = (c.parentElement.id === 'p1-cats-setup' ? 1 : 2);
+                const name = c.innerText.replace(/[^\u0621-\u064A]/g, "");
                 c.className = (p === 1 ? p1Cats : p2Cats).includes(name) ? 'cat-card selected' : 'cat-card';
             });
         }
@@ -178,6 +201,24 @@
             startChoiceTimer();
         }
 
+        function startChoiceTimer() {
+            choiceRem = choiceLimit;
+            document.getElementById('choice-timer').innerText = choiceRem;
+            clearInterval(choiceInt);
+            choiceInt = setInterval(() => {
+                if(!isPaused) {
+                    choiceRem--;
+                    document.getElementById('choice-timer').innerText = choiceRem;
+                    if(choiceRem <= 0) {
+                        clearInterval(choiceInt);
+                        turn = (turn === 1 ? 2 : 1);
+                        updateTurnTxt();
+                        startChoiceTimer();
+                    }
+                }
+            }, 1000);
+        }
+
         function ask(val) {
             if(isPaused) return;
             clearInterval(choiceInt);
@@ -187,6 +228,7 @@
             const catName = myCats[Math.floor(Math.random() * myCats.length)];
             
             let pool = masterBank[catName].filter(q => !usedQuestions[catName].includes(q.q));
+            
             if(diff === 'easy') pool = pool.slice(0, 30);
             else if(diff === 'med') pool = pool.slice(30, 70);
             else if(diff === 'hard') pool = pool.slice(70, 100);
@@ -195,6 +237,7 @@
             const q = pool[Math.floor(Math.random() * pool.length)];
             usedQuestions[catName].push(q.q);
 
+            document.getElementById('q-cat-name').innerText = `قسم: ${catName}`;
             document.getElementById('q-text').innerText = q.q;
             document.getElementById('ans-val').innerText = q.a;
             document.getElementById('ans-box').style.display = 'none';
@@ -216,24 +259,6 @@
             }, 1000);
         }
 
-        function startChoiceTimer() {
-            choiceRem = choiceLimit;
-            document.getElementById('choice-timer').innerText = choiceRem;
-            clearInterval(choiceInt);
-            choiceInt = setInterval(() => {
-                if(!isPaused) {
-                    choiceRem--;
-                    document.getElementById('choice-timer').innerText = choiceRem;
-                    if(choiceRem <= 0) {
-                        clearInterval(choiceInt);
-                        turn = (turn === 1 ? 2 : 1);
-                        updateTurnTxt();
-                        startChoiceTimer();
-                    }
-                }
-            }, 1000);
-        }
-
         function handleResult(correct) {
             clearInterval(timerInt);
             document.getElementById('q-modal').style.display = 'none';
@@ -245,7 +270,7 @@
                 document.getElementById('loser-display').innerText = "الخاسر: " + loser;
                 playSound('boom'); setTimeout(() => playSound('laugh'), 1000);
                 document.getElementById('wasted-screen').style.display = 'flex';
-                setTimeout(() => location.reload(), 9000);
+                setTimeout(() => location.reload(), 10000);
             } else {
                 turn = (turn === 1 ? 2 : 1);
                 updateTurnTxt();
