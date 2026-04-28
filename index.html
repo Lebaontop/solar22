@@ -10,30 +10,37 @@
         }
         body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma; background-color: #050510; color: white; overflow: hidden; height: 100vh; display: flex; justify-content: center; align-items: center; }
         .animated-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('bg.jpd') center/cover no-repeat; z-index: -2; opacity: 0.5; }
-        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(20px); z-index: 5000; justify-content: center; align-items: center; }
-        .content-box { background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(25px); max-width: 550px; text-align: center; width: 90%; }
+        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(25px); z-index: 5000; justify-content: center; align-items: center; }
+        .content-box { background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); max-width: 550px; text-align: center; width: 90%; }
         .controls-top { position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; z-index: 1000; }
         .btn-ctrl { background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.2); color: white; padding: 8px 15px; border-radius: 10px; cursor: pointer; font-weight: bold; }
-        #setup-screen { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(35px); z-index: 4000; display: flex; align-items: center; justify-content: center; gap: 40px; padding: 20px; }
+        
+        #setup-screen { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(40px); z-index: 4000; display: flex; align-items: center; justify-content: center; gap: 40px; padding: 20px; }
         .rules-side { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; border-right: 4px solid var(--neon); width: 280px; text-align: right; }
         .rules-side b { color: var(--neon); font-size: 1.2rem; display: block; margin-bottom: 10px; border-bottom: 1px solid #444; }
         .rules-side p { font-size: 0.85rem; line-height: 1.6; margin: 8px 0; color: #ddd; }
         .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; }
         .config-grid input, .config-grid select { background: rgba(0,0,0,0.6); color: white; border: 1px solid #444; padding: 6px; border-radius: 5px; width: 120px; }
-        .main-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.1); border-radius: 40px; width: 95%; max-width: 950px; padding: 25px; text-align: center; position: relative; }
-        .galaxy-text { font-size: 2.5rem; font-weight: 900; background: var(--galaxy); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .balance-container { height: 130px; display: flex; justify-content: center; align-items: flex-end; position: relative; margin-bottom: 10px; }
-        .beam { width: 450px; height: 10px; background: #fff; position: relative; transition: 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28); }
-        .cup { width: 120px; height: 60px; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 0 0 60px 60px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; padding: 0 80px; }
-        .num-btn { padding: 18px; font-size: 1.6rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 15px; cursor: pointer; transition: 0.3s; font-weight: bold; }
+
+        .main-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.1); border-radius: 40px; width: 95%; max-width: 950px; padding: 15px; text-align: center; position: relative; height: 95vh; display: flex; flex-direction: column; }
+        .galaxy-text { font-size: 2.8rem; font-weight: 900; background: var(--galaxy); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* تصميم الميزان الجديد */
+        .balance-container { height: 160px; display: flex; justify-content: center; align-items: flex-start; position: relative; margin-top: 10px; }
+        .beam { width: 500px; height: 6px; background: linear-gradient(90deg, #ccc, #fff, #ccc); position: relative; transition: 1s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 10px; transform-origin: center center; }
+        .beam::after { content: ''; position: absolute; width: 4px; height: 40px; background: gold; left: 50%; top: -40px; transform: translateX(-50%); border-radius: 2px; } /* مؤشر علوي */
+        .cup { width: 110px; height: 50px; background: rgba(0,0,0,0.8); border: 2px solid var(--neon); border-radius: 0 0 50px 50px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: absolute; top: 6px; transition: 0.3s; }
+        
+        .grid { display: grid; grid-template-columns: repeat(5, 2fr); gap: 15px; padding: 0 100px; margin-top: auto; margin-bottom: 20px; }
+        .num-btn { padding: 15px; font-size: 1.8rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 15px; cursor: pointer; transition: 0.3s; font-weight: bold; }
         .num-btn:disabled { opacity: 0.1; border-color: red; }
         .cat-card { padding: 10px; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; cursor: pointer; margin: 3px 0; text-align: center; background: rgba(255,255,255,0.05); }
         .cat-card.selected { background: var(--neon); color: black; font-weight: bold; border: 1px solid white; }
+        
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
         #wasted-screen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; }
-        #wasted-title { color: red; font-size: 8rem; font-weight: 900; animation: pulse 0.8s infinite; }
-        .rights-label { font-size: 0.9rem; opacity: 0.8; color: var(--neon); margin-top: 15px; text-align: center; font-weight: bold; line-height: 1.4; }
+        #wasted-title { color: red; font-size: 8rem; font-weight: 900; animation: pulse 0.8s infinite; letter-spacing: 10px; }
+        .rights-label { font-size: 0.9rem; opacity: 0.8; color: var(--neon); padding-bottom: 10px; text-align: center; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -53,11 +60,10 @@
     <div id="setup-screen">
         <div class="rules-side">
             <b>📜 شرح القوانين:</b>
-            <p>• كل فريق يختار قسمين.</p>
-            <p>• الخطأ يضيف ضعف القيمة.</p>
-            <p>• السؤال لا يتكرر أبداً حتى نفاذ الـ 400.</p>
+            <p>• الخطأ يضيف ضعف العدد.</p>
             <p>• الحد يحسب فردياً لكل فريق.</p>
-            <p>• تصفير الأرقام لا يلغي الحد.</p>
+            <p>• يحق للمنظم اعتماد اجوبة خارجيه.</p>
+            <p>• الخطا وارد في الاجوبه يحق لك الاعتراض.</p>
         </div>
         <div style="text-align:center;">
             <div style="display:flex; align-items:center; gap:15px; justify-content:center; margin-bottom:15px;">
@@ -67,37 +73,52 @@
             <div class="config-grid">
                 <label>فريق 1:</label><input type="text" id="p1-name" value="الفريق 1">
                 <label>فريق 2:</label><input type="text" id="p2-name" value="الفريق 2">
-                <label>وقت الاختيار:</label><input type="number" id="choice-limit-input" value="10">
-                <label>وقت السؤال:</label><input type="number" id="time-limit" value="30">
                 <label>الحد:</label>
-                <div style="display:flex; gap:5px;"><input type="password" id="score-limit" value="50" style="width:70px;"><button onclick="toggleLimitView()">👁️</button></div>
+                <div style="display:flex; gap:5px;"><input type="password" id="score-limit" value="50" style="width:70px;"><button onclick="toggleLimitView()" style="background:none; border:none; color:white; cursor:pointer;">👁️</button></div>
                 <label>المستوى:</label>
                 <select id="diff-select"><option value="all">الكل</option><option value="easy">سهل</option><option value="med">متوسط</option><option value="hard">صعب</option></select>
+                <label>وقت السؤال:</label><input type="number" id="time-limit" value="30">
+                <label>وقت الاختيار:</label><input type="number" id="choice-limit-input" value="10">
             </div>
             <div style="display:flex; gap:15px; margin-top:15px;">
-                <div id="p1-cats-area" style="width:140px;">
+                <div id="p1-cats-setup" style="width:140px;">
                     <div class="cat-card" onclick="setCat(1, 'عام')">🧠 عام</div><div class="cat-card" onclick="setCat(1, 'دين')">🕋 دين</div>
                     <div class="cat-card" onclick="setCat(1, 'كورة')">⚽ كورة</div><div class="cat-card" onclick="setCat(1, 'ثقافة')">📚 ثقافة</div>
                 </div>
-                <div id="p2-cats-area" style="width:140px;">
+                <div id="p2-cats-setup" style="width:140px;">
                     <div class="cat-card" onclick="setCat(2, 'عام')">🧠 عام</div><div class="cat-card" onclick="setCat(2, 'دين')">🕋 دين</div>
                     <div class="cat-card" onclick="setCat(2, 'كورة')">⚽ كورة</div><div class="cat-card" onclick="setCat(2, 'ثقافة')">📚 ثقافة</div>
                 </div>
             </div>
             <button onclick="startGame()" style="margin-top:20px; padding:12px 60px; background:var(--victory); border:none; border-radius:50px; color:white; font-weight:bold; cursor:pointer;">انطلاق 🚀</button>
-            <div class="rights-label">تطوير: Leba, AAA <br> تصميم: mesh <br> كلان: العشرينات</div>
+            <div class="rights-label" style="margin-top:10px;">تطوير: Leba, AAA | تصميم: mesh | كلان: العشرينات</div>
         </div>
     </div>
 
     <div class="main-card" id="game-ui" style="display:none;">
-        <div id="paused-msg" class="overlay" style="position:absolute; border-radius:40px;">لعبة متوقفة ⏸️</div>
-        <div style="display:flex; align-items:center; gap:10px; justify-content:center; margin-bottom:10px;">
+        <div id="paused-msg" class="overlay" style="position:absolute; border-radius:40px; z-index:2001;">لعبة متوقفة ⏸️</div>
+        
+        <div style="display:flex; align-items:center; gap:10px; justify-content:center;">
             <div style="width:40px; height:40px; background:url('logo.png') center/cover; border:1px solid #fff; border-radius:8px;"></div>
             <h1 class="galaxy-text" style="font-size:2rem; margin:0;">SOLAR</h1>
         </div>
-        <div class="balance-container"><div class="beam" id="beam"><div class="cup" style="position:absolute; left:-10px; bottom:-65px;"><small id="label-p1"></small><b id="s1" style="font-size:1.5rem">0</b></div><div class="cup" style="position:absolute; right:-10px; bottom:-65px;"><small id="label-p2"></small><b id="s2" style="font-size:1.5rem">0</b></div></div></div>
-        <div id="choice-timer-disp" style="font-size:3rem; color:#ffaf7b; font-weight:900;">10</div>
+
+        <div class="balance-container">
+            <div class="beam" id="beam">
+                <div class="cup" style="left: -10px;">
+                    <small id="label-p1" style="font-size:0.6rem; color:var(--neon)"></small>
+                    <b id="s1" style="font-size:1.4rem">0</b>
+                </div>
+                <div class="cup" style="right: -10px;">
+                    <small id="label-p2" style="font-size:0.6rem; color:var(--neon)"></small>
+                    <b id="s2" style="font-size:1.4rem">0</b>
+                </div>
+            </div>
+        </div>
+
+        <div id="choice-timer-disp" style="font-size:2.5rem; color:#ffaf7b; font-weight:900; margin-top:-10px;">10</div>
         <h2 id="turn-txt" style="color:var(--neon); margin:5px 0;"></h2>
+        
         <div class="grid" id="number-grid">
             <script>for(let i=1; i<=10; i++) document.write(`<button class="num-btn" id="btn-${i}" onclick="ask(${i})">${i}</button>`);</script>
         </div>
@@ -111,8 +132,8 @@
             <div id="ans-box" style="display:none; color:var(--victory); text-align:center; margin:10px; font-weight:bold; border-top:1px solid #444; padding-top:10px; font-size:1.5rem;">الإجابة: <span id="ans-val"></span></div>
             <button onclick="document.getElementById('ans-box').style.display='block'; playS('click')" style="width:100%; margin-bottom:10px; padding:10px; cursor:pointer; background:rgba(255,255,255,0.1); border:1px solid #444; color:white; border-radius:10px;">كشف الإجابة</button>
             <div style="display:flex; gap:10px; justify-content:center;">
-                <button onclick="handleResult(true); playS('click')" style="background:var(--victory); color:white; padding:12px 40px; border-radius:10px; cursor:pointer; border:none;">صح ✅</button>
-                <button onclick="handleResult(false); playS('click')" style="background:var(--danger); color:white; padding:12px 40px; border-radius:10px; cursor:pointer; border:none;">خطأ ❌</button>
+                <button onclick="handleResult(true); playS('click')" style="background:var(--victory); color:white; padding:12px 40px; border-radius:10px; border:none; cursor:pointer;">صح ✅</button>
+                <button onclick="handleResult(false); playS('click')" style="background:var(--danger); color:white; padding:12px 40px; border-radius:10px; border:none; cursor:pointer;">خطأ ❌</button>
             </div>
         </div>
     </div>
@@ -146,25 +167,26 @@
 ],
 'دين': [
 {q:"كم عدد أركان الإسلام؟",a:"5"}, {q:"ما هي الشهادة؟",a:"لا إله إلا الله محمد رسول الله"}, {q:"كم عدد الصلوات المفروضة؟",a:"5"}, {q:"ما قبلة المسلمين؟",a:"الكعبة"}, {q:"في أي شهر يصوم المسلمون؟",a:"رمضان"}, {q:"ما كتاب المسلمين؟",a:"القرآن الكريم"}, {q:"كم عدد أركان الإيمان؟",a:"6"}, {q:"من خاتم الأنبياء؟",a:"محمد ﷺ"}, {q:"ما أول سورة في القرآن؟",a:"الفاتحة"}, {q:"ما آخر سورة في القرآن؟",a:"الناس"},
-{q:"ما أطول سورة في القرآن؟",a:"البقرة"}, {q:"ما أقصر سورة في القرآن؟",a:"الكوثر"}, {q:"كم عدد سور القرآن؟",a:"114"}, {q:"في أي مدينة ولد النبي ﷺ؟",a:"مكة"}, {q:"في أي مدينة توفي النبي ﷺ؟",a:"المدينة المنورة"}, {q:"من أول الخلفاء الراشدين؟",a:"أبو بكر الصديق"}, {q:"كم ركعات صلاة الفجر؟",a:"2"}, {q:"كم ركعات صلاة الظهر؟",a:"4"}, {q:"كم ركعات صلاة المغرب؟",a:"3"}, {q:"كم ركعات صلاة العشاء؟",a:"4"},
-{q:"ما أول مسجد في الإسلام؟",a:"مسجد قباء"}, {q:"ما اسم المسجد في مكة؟",a:"المسجد الحرام"}, {q:"ما اسم المسجد في المدينة؟",a:"المسجد النبوي"}, {q:"من أول مؤذن؟",a:"بلال بن رباح"}, {q:"ما اسم الملك الذي ينزل بالوحي؟",a:"جبريل عليه السلام"}, {q:"ما ليلة خير من ألف شهر؟",a:"ليلة القدر"}, {q:"في أي غار نزل الوحي؟",a:"غار حراء"}, {q:"من النبي الذي ابتلعه الحوت؟",a:"يونس عليه السلام"}, {q:"من النبي الذي شق البحر؟",a:"موسى عليه السلام"}, {q:"من النبي الذي بنى الكعبة؟",a:"إبراهيم عليه السلام"},
-{q:"ما اسم ابن إبراهيم الذي ساعده في بناء الكعبة؟",a:"إسماعيل عليه السلام"}, {q:"ما السورة التي لا تبدأ بالبسملة؟",a:"التوبة"}, {q:"كم عدد أجزاء القرآن؟",a:"30"}, {q:"كم عدد السجدات في القرآن؟",a:"15"}, {q:"ما السورة التي تعدل ثلث القرآن؟",a:"الإخلاص"}, {q:"ما أطول آية في القرآن؟",a:"آية الدين (البقرة 282)"}, {q:"من كاتب الوحي؟",a:"زيد بن ثابت"}, {q:"ما أول غزوة في الإسلام؟",a:"بدر"}, {q:"في أي شهر كانت غزوة بدر؟",a:"رمضان"}, {q:"ما اسم المعركة في أحد؟",a:"غزوة أحد"},
-{q:"من الصحابي الملقب بسيف الله؟",a:"خالد بن الوليد"}, {q:"من الصحابي الذي اهتز لموته العرش؟",a:"سعد بن معاذ"}, {q:"من الملقب بالفاروق؟",a:"عمر بن الخطاب"}, {q:"من ثالث الخلفاء؟",a:"عثمان بن عفان"}, {q:"من رابع الخلفاء؟",a:"علي بن أبي طالب"}, {q:"كم عدد الأشهر الحرم؟",a:"4"}, {q:"ما أول قبلة للمسلمين؟",a:"المسجد الأقصى"}, {q:"أين يقع المسجد الأقصى؟",a:"القدس"}, {q:"كم ركعات صلاة الجمعة؟",a:"2"}, {q:"ما اسم صلاة الليل؟",a:"قيام الليل"},
-{q:"ما معنى الإسلام؟",a:"الاستسلام لله"}, {q:"كم عدد الأنبياء المذكورين في القرآن؟",a:"25"}, {q:"من أول نبي؟",a:"آدم عليه السلام"}, {q:"من آخر نبي؟",a:"محمد ﷺ"}, {q:"ما اسم الغار في الهجرة؟",a:"غار ثور"}, {q:"كم مدة نزول القرآن؟",a:"23 سنة"}, {q:"ما اسم عام الحزن؟",a:"وفاة أبو طالب وخديجة"}, {q:"ما المعجزة الكبرى للنبي؟",a:"القرآن"}, {q:"ما اسم زوجة فرعون المؤمنة؟",a:"آسيا"}, {q:"ما اسم أخت النبي من الرضاعة؟",a:"الشيماء"},
-{q:"ما السورة التي ذكرت فيها البسملة مرتين؟",a:"النمل"}, {q:"كم عدد آيات سورة البقرة؟",a:"286"}, {q:"ما السورة التي تسمى قلب القرآن؟",a:"يس"}, {q:"ما السورة التي تبدأ بتبارك؟",a:"الملك"}, {q:"ما السورة التي تتحدث عن مريم؟",a:"مريم"}, {q:"ما السورة التي فيها قصة أصحاب الفيل؟",a:"الفيل"}, {q:"ما النبي الذي كان نجارًا؟",a:"زكريا عليه السلام"}, {q:"ما النبي الذي صبر على البلاء؟",a:"أيوب عليه السلام"}, {q:"ما النبي الذي كان ملكًا؟",a:"داود عليه السلام"}, {q:"ما الكتاب الذي أنزل على داود؟",a:"الزبور"},
-{q:"ما الكتاب الذي أنزل على موسى؟",a:"التوراة"}, {q:"ما الكتاب الذي أنزل على عيسى؟",a:"الإنجيل"}, {q:"كم عدد أبواب الجنة؟",a:"8"}, {q:"كم عدد أبواب النار؟",a:"7"}, {q:"ما أعلى درجة في الجنة؟",a:"الفردوس الأعلى"}, {q:"ما اسم نهر في الجنة؟",a:"الكوثر"}, {q:"ما أول ما نزل من القرآن؟",a:"اقرأ باسم ربك"}, {q:"ما أول ما يُحاسب عليه العبد؟",a:"الصلاة"}, {q:"ما اسم الجسر على جهنم؟",a:"الصراط"}, {q:"ما اسم الحوض؟",a:"حوض الكوثر"},
-{q:"ما اسم الملك الذي ينفخ في الصور؟",a:"إسرافيل"}, {q:"ما اسم ملك الموت؟",a:"عزرائيل"}, {q:"ما معنى القضاء والقدر؟",a:"أن كل شيء بتقدير الله"}, {q:"ما عدد التكبيرات في صلاة العيد الأولى؟",a:"7"}, {q:"ما أول قبيلة آمنت بالنبي؟",a:"الأنصار"}, {q:"ما اسم الهجرة؟",a:"الهجرة النبوية"}, {q:"في أي سنة كانت الهجرة؟",a:"622"}, {q:"ما اسم والد النبي؟",a:"عبد الله"}, {q:"ما اسم والدة النبي؟",a:"آمنة"}, {q:"ما اسم عم النبي الذي رباه؟",a:"أبو طالب"}
+{q:"ما أطول سورة؟",a:"البقرة"}, {q:"ما أقصر سورة؟",a:"الكوثر"}, {q:"كم عدد سور القرآن؟",a:"114"}, {q:"أين ولد النبي ﷺ؟",a:"مكة"}, {q:"أين توفي النبي ﷺ؟",a:"المدينة"}, {q:"من أم النبي ﷺ؟",a:"آمنة بنت وهب"}, {q:"من والد النبي ﷺ؟",a:"عبدالله بن عبدالمطلب"}, {q:"أول خليفة؟",a:"أبو بكر"}, {q:"ركعات الفجر؟",a:"2"}, {q:"ركعات الظهر؟",a:"4"},
+{q:"ركعات المغرب؟",a:"3"}, {q:"ركعات العشاء؟",a:"4"}, {q:"أول مسجد؟",a:"قباء"}, {q:"المسجد الحرام بـ؟",a:"مكة"}, {q:"المسجد النبوي بـ؟",a:"مدينة"}, {q:"أسلم رجال أولاً؟",a:"أبو بكر"}, {q:"أسلم نساء أولاً؟",a:"خديجة"}, {q:"أسلم صبيان أولاً؟",a:"علي"}, {q:"ملك الوحي؟",a:"جبريل"}, {q:"ليلة القدر؟",a:"ليلة القدر"},
+{q:"غار نزول الوحي؟",a:"حراء"}, {q:"نبي ابتلعه الحوت؟",a:"يونس"}, {q:"نبي شق البحر؟",a:"موسى"}, {q:"من بنى الكعبة؟",a:"إبراهيم"}, {q:"ابن إبراهيم؟",a:"إسماعيل"}, {q:"زوجة فرعون المؤمنة؟",a:"آسيا"}, {q:"سورة بدون بسملة؟",a:"التوبة"}, {q:"عدد أجزاء القرآن؟",a:"30"}, {q:"عدد سجدات التلاوة؟",a:"15"}, {q:"سورة تعدل ثلث القرآن؟",a:"الإخلاص"},
+{q:"أطول آية؟",a:"آية الدين"}, {q:"أول مؤذن؟",a:"بلال"}, {q:"كاتب الوحي؟",a:"زيد بن ثابت"}, {q:"أول غزوة؟",a:"بدر"}, {q:"شهر بدر؟",a:"رمضان"}, {q:"غزوة أحد؟",a:"أحد"}, {q:"سيف الله؟",a:"خالد بن الوليد"}, {q:"اهتز العرش له؟",a:"سعد بن معاذ"}, {q:"الصديق؟",a:"أبو بكر"}, {q:"الفاروق؟",a:"عمر"},
+{q:"ثالث خليفة؟",a:"عثمان"}, {q:"رابع خليفة؟",a:"علي"}, {q:"عدد الأشهر الحرم؟",a:"4"}, {q:"القعدة/الحجة/محرم/رجب",a:"الأشهر الحرم"}, {q:"أول قبلة؟",a:"المسجد الأقصى"}, {q:"قدس",a:"مكان الأقصى"}, {q:"2",a:"ركعات جمعة"}, {q:"قيام الليل",a:"صلاة ليل"}, {q:"رمضان",a:"صيام فرض"}, {q:"استسلام لله",a:"معنى إسلام"},
+{q:"كلام الله",a:"معنى قرآن"}, {q:"25",a:"عدد الأنبياء"}, {q:"أول نبي؟",a:"آدم"}, {q:"آخر نبي؟",a:"محمد ﷺ"}, {q:"جبل النور",a:"جبل الوحي"}, {q:"الهجرة",a:"من مكة للمدينة"}, {q:"622",a:"سنة الهجرة"}, {q:"شيماء",a:"أخت النبي"}, {q:"أبو طالب",a:"عم النبي"}, {q:"ثور",a:"غار الهجرة"},
+{q:"النمل",a:"بسملة مرتين"}, {q:"286",a:"آيات البقرة"}, {q:"يس",a:"قلب القرآن"}, {q:"الملك",a:"تبدأ بتبارك"}, {q:"سورة مريم",a:"مريم"}, {q:"الفيل",a:"أصحاب الفيل"}, {q:"لقمان",a:"سورة لقمان"}, {q:"زكريا",a:"نبي نجار"}, {q:"أيوب",a:"نبي صبر"}, {q:"داود",a:"نبي ملك"},
+{q:"زبور",a:"كتاب داود"}, {q:"التوراة",a:"كتاب موسى"}, {q:"الإنجيل",a:"كتاب عيسى"}, {q:"7",a:"تكبيرات العيد"}, {q:"إسرافيل",a:"ملك الصور"}, {q:"عزرائيل",a:"ملك الموت"}, {q:"الصلاة",a:"أول ما يحاسب"}, {q:"كوثر",a:"حوض النبي"}, {q:"الصراط",a:"جسر جهنم"}, {q:"الميزان",a:"ميزان القيامة"},
+{q:"8",a:"أبواب الجنة"}, {q:"7",a:"أبواب النار"}, {q:"الفردوس الأعلى",a:"أعلى الجنة"}, {q:"كوثر",a:"نهر الجنة"}, {q:"اقرأ",a:"أول مانزل"}, {q:"23 سنة",a:"مدة النزول"}, {q:"وفاة أبو طالب وخديجة",a:"عام الحزن"}, {q:"القرآن",a:"معجزة النبي"}, {q:"كل شيء بتقدير الله",a:"الإيمان بالقدر"}
 ],
 'كورة': [
-{q:"كم عدد لاعبي الفريق داخل الملعب؟",a:"11"}, {q:"كم مدة المباراة؟",a:"90 دقيقة"}, {q:"كم عدد الأشواط؟",a:"2"}, {q:"لون البطاقة للطرد؟",a:"حمراء"}, {q:"لون بطاقة الإنذار؟",a:"صفراء"}, {q:"ما اسم الجائزة لأفضل لاعب؟",a:"الكرة الذهبية"}, {q:"من ينظم كأس العالم؟",a:"FIFA"}, {q:"ما اسم بطولة أوروبا؟",a:"يورو"}, {q:"كم عدد التبديلات الحديثة؟",a:"5"}, {q:"ما اسم تسجيل 3 أهداف؟",a:"هاتريك"},
-{q:"ما مركز Goalkeeper؟",a:"حارس"}, {q:"في أي دولة نشأت كرة القدم؟",a:"إنجلترا"}, {q:"كم فريق في كأس العالم 2022؟",a:"32"}, {q:"من بطل كأس العالم 2022؟",a:"الأرجنتين"}, {q:"من بطل كأس العالم 2018؟",a:"فرنسا"}, {q:"ما ملعب ريال مدريد؟",a:"سانتياغو برنابيو"}, {q:"ما ملعب برشلونة؟",a:"كامب نو"}, {q:"ما اسم الدوري الإسباني؟",a:"لا ليغا"}, {q:"ما اسم دوري أبطال أوروبا؟",a:"دوري الأبطال"}, {q:"كم عدد الحكام في الملعب؟",a:"1 حكم رئيسي"},
-{q:"من الهداف التاريخي لكأس العالم؟",a:"ميروسلاف كلوزه"}, {q:"من نادي ميسي 2025؟",a:"إنتر ميامي"}, {q:"من نادي رونالدو؟",a:"النصر"}, {q:"ما الدوري الإنجليزي؟",a:"Premier League"}, {q:"كم طول المباراة مع الوقت الإضافي؟",a:"120 دقيقة"}, {q:"ما تقنية الفيديو؟",a:"VAR"}, {q:"كم عدد حكام VAR؟",a:"2-4"}, {q:"من مستضيف كأس العالم 2026؟",a:"أمريكا وكندا والمكسيك"}, {q:"كم عدد فرق مونديال 2026؟",a:"48"}, {q:"كم رقم ميسي؟",a:"10"},
-{q:"كم رقم رونالدو؟",a:"7"}, {q:"من أكثر فوزًا بدوري الأبطال؟",a:"ريال مدريد"}, {q:"كم لقب لريال مدريد في الأبطال؟",a:"15"}, {q:"كم لقب لبرشلونة في الأبطال؟",a:"5"}, {q:"من بطل دوري الأبطال 2023؟",a:"مانشستر سيتي"}, {q:"من بطل دوري الأبطال 2024؟",a:"ريال مدريد"}, {q:"من مدرب مانشستر سيتي؟",a:"غوارديولا"}, {q:"ما لقب تشيلسي؟",a:"البلوز"}, {q:"ما لقب مانشستر يونايتد؟",a:"الشياطين الحمر"}, {q:"ما لقب يوفنتوس؟",a:"السيدة العجوز"},
-{q:"من أكثر منتخب فاز بكأس العالم؟",a:"البرازيل"}, {q:"كم لقب للبرازيل؟",a:"5"}, {q:"كم لقب لألمانيا؟",a:"4"}, {q:"كم لقب للأرجنتين؟",a:"3"}, {q:"من بطل يورو 2020؟",a:"إيطاليا"}, {q:"من بطل يورو 2016؟",a:"البرتغال"}, {q:"ما نادي محمد صلاح؟",a:"ليفربول"}, {q:"ما جنسية ميسي؟",a:"الأرجنتين"}, {q:"ما جنسية رونالدو؟",a:"البرتغال"}, {q:"من هداف دوري الأبطال تاريخيًا؟",a:"رونالدو"},
-{q:"كم أهداف رونالدو في الأبطال تقريبًا؟",a:"140+"}, {q:"كم أهداف ميسي في الأبطال تقريبًا؟",a:"120+"}, {q:"من أكثر من فاز بالكرة الذهبية؟",a:"ميسي"}, {q:"كم كرة ذهبية لميسي؟",a:"8"}, {q:"كم كرة ذهبية لرونالدو؟",a:"5"}, {q:"من أسرع هدف في كأس العالم؟",a:"هاكان شوكور"}, {q:"كم ثانية أسرع هدف؟",a:"11 ثانية"}, {q:"ما أكبر نتيجة في كأس العالم؟",a:"10-1"}, {q:"من سجل “يد الله”؟",a:"مارادونا"}, {q:"في أي سنة كانت يد الله؟",a:"1986"},
-{q:"ما طول ملعب كرة القدم الرسمي؟",a:"100-110 متر"}, {q:"ما عرض الملعب؟",a:"64-75 متر"}, {q:"من أكثر صناعة أهداف تاريخيًا؟",a:"ميسي"}, {q:"من أكثر تسجيل أهداف تاريخيًا؟",a:"رونالدو"}, {q:"ما نادي هالاند؟",a:"مانشستر سيتي"}, {q:"من هداف الدوري الإنجليزي 2023؟",a:"هالاند"}, {q:"ما نادي كين 2025؟",a:"بايرن ميونخ"}, {q:"ما نادي نيمار 2025؟",a:"سانتوس"}, {q:"من سجل هدف نهائي الأبطال 2024؟",a:"فينيسيوس"}, {q:"من بطل دوري الأبطال 2022؟",a:"ريال مدريد"},
-{q:"من بطل دوري الأبطال 2021؟",a:"تشيلسي"}, {q:"من بطل دوري الأبطال 2020؟",a:"بايرن ميونخ"}, {q:"من بطل دوري الأبطال 2019؟",a:"ليفربول"}, {q:"من بطل دوري الأبطال 2015؟",a:"برشلونة"}, {q:"ما الدوري الإيطالي؟",a:"Serie A"}, {q:"ما الدوري الألماني؟",a:"Bundesliga"}, {q:"ما الدوري الفرنسي؟",a:"Ligue 1"}, {q:"ما كأس إيطاليا؟",a:"Coppa Italia"}, {q:"ما كأس السوبر؟",a:"Super Cup"}, {q:"كم مدة الشوط الإضافي؟",a:"30 دقيقة"},
-{q:"كم عدد بطولات مانشستر يونايتد دوري؟",a:"20"}, {q:"كم عدد بطولات ريال مدريد دوري؟",a:"35+"}, {q:"ما النادي الذي لم يهبط بالبريميرليغ؟",a:"آرسنال"}, {q:"من أول بطل كأس عالم؟",a:"أوروغواي"}, {q:"في أي سنة أول مونديال؟",a:"1930"}, {q:"ما اسم خط التماس؟",a:"Sideline"}, {q:"ما اسم منطقة الجزاء؟",a:"Penalty Area"}, {q:"كم عدد الحكام المساعدين؟",a:"2"}, {q:"ما أقصى عدد لاعبين في المباراة؟",a:"22"}, {q:"ما الاتحاد الأوروبي لكرة القدم؟",a:"UEFA"}
+{q:"كم عدد لاعبي الفريق داخل الملعب؟",a:"11"}, {q:"كم مدة مباراة كرة القدم؟",a:"90 دقيقة"}, {q:"كم عدد الأشواط؟",a:"2"}, {q:"ما لون البطاقة للطرد؟",a:"حمراء"}, {q:"ما لون البطاقة للإنذار؟",a:"صفراء"}, {q:"ما اسم أفضل لاعب بالعالم؟",a:"الكرة الذهبية"}, {q:"من ينظم كأس العالم؟",a:"FIFA"}, {q:"ما اسم بطولة أوروبا؟",a:"اليورو"}, {q:"ما اسم حارس المرمى بالإنجليزية؟",a:"Goalkeeper"}, {q:"من اخترع كرة القدم الحديثة؟",a:"إنجلترا"},
+{q:"كم عدد التبديلات؟",a:"5"}, {q:"ماذا يسمى تسجيل 3 أهداف؟",a:"هاتريك"}, {q:"فرق كأس العالم 2022؟",a:"32"}, {q:"بطل مونديال 2022؟",a:"الأرجنتين"}, {q:"بطل مونديال 2018؟",a:"فرنسا"}, {q:"سانتياغو برنابيو",a:"ملعب ريال مدريد"}, {q:"كامب نو",a:"ملعب برشلونة"}, {q:"الدوري الإنجليزي",a:"Premier League"}, {q:"الدوري الإسباني",a:"La Liga"}, {q:"1 حكم رئيسي",a:"عدد الحكام"},
+{q:"خط التماس",a:"خط الملعب الجانبي"}, {q:"Penalty Box",a:"منطقة الجزاء"}, {q:"كلوزه",a:"هداف المونديال"}, {q:"إنتر ميامي",a:"نادي ميسي 2025"}, {q:"النصر",a:"نادي رونالدو"}, {q:"ليفربول",a:"نادي صلاح"}, {q:"الأرجنتين",a:"دولة ميسي"}, {q:"البرتغال",a:"دولة رونالدو"}, {q:"10",a:"رقم ميسي"}, {q:"7",a:"رقم رونالدو"},
+{q:"15",a:"أبطال ريال مدريد"}, {q:"5",a:"أبطال برشلونة"}, {q:"إيطاليا",a:"بطل يورو 2020"}, {q:"البرتغال",a:"بطل يورو 2016"}, {q:"البلوز",a:"لقب تشيلسي"}, {q:"الشياطين الحمر",a:"لقب مانشستر ي"}, {q:"السيدة العجوز",a:"لقب يوفنتوس"}, {q:"بيب غوارديولا",a:"مدرب السيتي"}, {q:"20",a:"دوري مان يونايتد"}, {q:"35+",a:"دوري الريال"},
+{q:"5",a:"مونديال البرازيل"}, {q:"4",a:"مونديال ألمانيا"}, {q:"3",a:"مونديال الأرجنتين"}, {q:"مبابي",a:"أسرع لاعب"}, {q:"سيتي",a:"نادي هالاند"}, {q:"هالاند",a:"هداف إنجلترا 2023"}, {q:"Coppa Italia",a:"كأس إيطاليا"}, {q:"Serie A",a:"دوري إيطاليا"}, {q:"Bundesliga",a:"دوري ألمانيا"}, {q:"Ligue 1",a:"دوري فرنسا"},
+{q:"فيديو",a:"ما هو VAR"}, {q:"2-4",a:"حكام VAR"}, {q:"أمريكا وكندا والمكسيك",a:"مستضيف 2026"}, {q:"48",a:"فرق 2026"}, {q:"ريال مدريد",a:"بطل 2024"}, {q:"فينيسيوس",a:"مسجل 2024"}, {q:"سانتوس",a:"نادي نيمار 2025"}, {q:"يورغن كلوب",a:"مدرب ليفربول سابقاً"}, {q:"بايرن ميونخ",a:"نادي كين"}, {q:"مصر",a:"دولة صلاح"},
+{q:"رونالدو",a:"أكثر سجل بالأبطال"}, {q:"140+",a:"أهداف رونالدو أبطال"}, {q:"120+",a:"أهداف ميسي أبطال"}, {q:"ميسي",a:"أكثر كرة ذهبية"}, {q:"8",a:"كرات ميسي"}, {q:"5",a:"كرات رونالدو"}, {q:"آرسنال",a:"لم يهبط بالبريميرليغ"}, {q:"أوروغواي",a:"أول بطل مونديال"}, {q:"1930",a:"سنة أول مونديال"}, {q:"مارادونا",a:"يد الله"},
+{q:"1986",a:"سنة يد الله"}, {q:"تشيلسي",a:"بطل 2012"}, {q:"بايرن",a:"بطل 2013"}, {q:"برشلونة",a:"بطل 2015"}, {q:"ليفربول",a:"بطل 2019"}, {q:"بايرن",a:"بطل 2020"}, {q:"تشيلسي",a:"بطل 2021"}, {q:"ريال مدريد",a:"بطل 2022"}, {q:"مان سيتي",a:"بطل 2023"}, {q:"10-1",a:"أكبر فوز مونديال"},
+{q:"هاكان شوكور",a:"أسرع هدف مونديال"}, {q:"100-110م",a:"طول الملعب"}, {q:"64-75م",a:"عرض الملعب"}, {q:"ميسي",a:"أكثر صناعة"}, {q:"رونالدو",a:"أكثر سجل"}, {q:"أبطال/يوروبا",a:"السوبر الأوروبي"}, {q:"30د",a:"شوط إضافي"}, {q:"2",a:"أشواط إضافية"}, {q:"شين لونغ",a:"أسرع هدف إنجلترا"}, {q:"7.69ث",a:"ثواني شين"}, {q:"مان يونايتد",a:"أكثر دوري إنجليزي"}
 ]
         };
 
@@ -177,7 +199,7 @@
             let list = (p === 1 ? p1Cats : p2Cats);
             if(list.includes(cat)) list.splice(list.indexOf(cat), 1);
             else if(list.length < 2) list.push(cat);
-            const parent = (p === 1 ? 'p1-cats-area' : 'p2-cats-area');
+            const parent = (p === 1 ? 'p1-cats-setup' : 'p2-cats-setup');
             document.querySelectorAll(`#${parent} .cat-card`).forEach(el => {
                 const name = el.innerText.replace(/[^\u0621-\u064A]/g, "");
                 el.className = list.includes(name) ? 'cat-card selected' : 'cat-card';
@@ -185,14 +207,14 @@
         }
 
         function startGame() {
-            if(p1Cats.length < 2 || p2Cats.length < 2) return alert("اختاروا قسمين!");
+            if(p1Cats.length < 2 || p2Cats.length < 2) return alert("اختاروا قسمين لكل فريق!");
             winLimit = parseInt(document.getElementById('score-limit').value);
             qTime = parseInt(document.getElementById('time-limit').value);
             choiceLimit = parseInt(document.getElementById('choice-limit-input').value);
             document.getElementById('label-p1').innerText = document.getElementById('p1-name').value;
             document.getElementById('label-p2').innerText = document.getElementById('p2-name').value;
             document.getElementById('setup-screen').style.display = 'none';
-            document.getElementById('game-ui').style.display = 'block';
+            document.getElementById('game-ui').style.display = 'flex';
             updateTurn();
         }
 
@@ -221,7 +243,6 @@
             const diff = document.getElementById('diff-select').value;
             
             let pool = masterBank[cat].filter(q => !used[cat].includes(q.q));
-            
             if(diff !== 'all') {
                 if(diff === 'easy') pool = pool.slice(0, 30);
                 else if(diff === 'med') pool = pool.slice(30, 70);
@@ -250,9 +271,7 @@
             clearInterval(timerInt);
             document.getElementById('q-modal').style.display = 'none';
             scores[turn] += correct ? curVal : (curVal * 2);
-            document.getElementById('s1').innerText = scores[1];
-            document.getElementById('s2').innerText = scores[2];
-            document.getElementById('beam').style.transform = `rotate(${(scores[1] - scores[2]) * -2.5}deg)`;
+            updateUI();
             
             if(scores[turn] >= winLimit) {
                 document.getElementById('loser-display').innerText = (turn === 1 ? document.getElementById('p1-name').value : document.getElementById('p2-name').value);
@@ -263,6 +282,15 @@
                 turn = (turn === 1 ? 2 : 1);
                 updateTurn();
             }
+        }
+
+        function updateUI() {
+            document.getElementById('s1').innerText = scores[1];
+            document.getElementById('s2').innerText = scores[2];
+            let diffPoints = scores[1] - scores[2];
+            // تحديد أقصى ميلان بـ 15 درجة لضمان عدم ملامسة الأرقام
+            let angle = Math.max(-15, Math.min(15, diffPoints * -0.5)); 
+            document.getElementById('beam').style.transform = `rotate(${angle}deg)`;
         }
 
         function togglePause() { isPaused = !isPaused; document.getElementById('paused-msg').style.display = isPaused ? 'flex' : 'none'; }
