@@ -18,12 +18,19 @@
         .btn-ctrl { background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.2); color: white; padding: 8px 15px; border-radius: 10px; cursor: pointer; font-weight: bold; }
         
         #setup-screen { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(40px); z-index: 4000; display: flex; align-items: center; justify-content: center; gap: 40px; padding: 20px; }
-        .rules-side { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; border-right: 4px solid var(--neon); width: 230px; text-align: right; }
+        
+        .rules-side { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; border-right: 4px solid var(--neon); width: 280px; text-align: right; }
+        .rules-side b { color: var(--neon); font-size: 1.2rem; display: block; margin-bottom: 10px; border-bottom: 1px solid #444; }
+        .rules-side p { font-size: 0.85rem; line-height: 1.6; margin: 8px 0; color: #ddd; }
+
         .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; }
         .config-grid input { background: rgba(0,0,0,0.6); color: white; border: 1px solid #444; padding: 6px; border-radius: 5px; width: 120px; }
 
         .main-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.1); border-radius: 40px; width: 95%; max-width: 950px; padding: 25px; text-align: center; position: relative; }
         
+        .game-header { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 5px; }
+        .galaxy-text { font-size: 2.5rem; font-weight: 900; background: var(--galaxy); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
         .balance-container { height: 130px; display: flex; justify-content: center; align-items: flex-end; position: relative; margin-bottom: 10px; }
         .beam { width: 450px; height: 10px; background: #fff; position: relative; transition: 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28); }
         .cup { width: 120px; height: 60px; background: rgba(0,0,0,0.8); border: 2px solid #fff; border-radius: 0 0 60px 60px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
@@ -34,7 +41,7 @@
         .cat-card { padding: 10px; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; cursor: pointer; margin: 3px 0; text-align: center; background: rgba(255,255,255,0.05); }
         .cat-card.selected { background: var(--neon); color: black; font-weight: bold; border: 1px solid white; }
         
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
         #wasted-screen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; }
         #wasted-title { color: red; font-size: 8rem; font-weight: 900; animation: pulse 0.8s infinite; }
         .rights-label { font-size: 0.9rem; opacity: 0.8; color: var(--neon); margin-top: 15px; text-align: center; font-weight: bold; line-height: 1.4; }
@@ -56,17 +63,15 @@
 
     <div id="setup-screen">
         <div class="rules-side">
-            <b style="color:var(--neon)">📜 الشروط:</b><br><br>
-            <p>• الخطأ يضيف ضعف الرقم.</p>
-            <p>• الحد يحسب فردياً.</p>
-            <p>• السؤال لا يتكرر أبداً.</p>
-            <p>• اختيار الرقم بوقت محدد.</p>
+            <b>📜 شرح القوانين:</b>
+            <p>• كل فريق يختار قسمين.</p>
+            <p>• الخطأ يضيف ضعف القيمة المختارة.</p>
+            <p>• السؤال لا يتكرر أبداً .</p>
+            <p>• الحد يحسب فردياً لكل فريق.</p>
+            <p>• وقت محدد لاختيار الرقم.</p>
         </div>
         <div style="text-align:center;">
-            <div style="display:flex; align-items:center; gap:15px; justify-content:center; margin-bottom:15px;">
-                <div style="width:60px; height:60px; background:url('logo.png') center/cover; border:2px solid #fff; border-radius:12px;"></div>
-                <h1 style="font-size:3rem; background: var(--galaxy); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin:0;">SOLAR</h1>
-            </div>
+            <div class="game-header"><div style="width:60px; height:60px; background:url('logo.png') center/cover; border:2px solid #fff; border-radius:12px;"></div><h1 class="galaxy-text">SOLAR</h1></div>
             <div class="config-grid">
                 <label>فريق 1:</label><input type="text" id="p1-name" value="الفريق 1">
                 <label>فريق 2:</label><input type="text" id="p2-name" value="الفريق 2">
@@ -92,18 +97,10 @@
 
     <div class="main-card" id="game-ui" style="display:none;">
         <div id="paused-msg" class="overlay" style="position:absolute; border-radius:40px;">لعبة متوقفة ⏸️</div>
-        <div class="logo-area" style="margin-top:-10px;"><div class="logo-box"></div><h1 class="logo-text">SOLAR</h1></div>
-        
-        <div class="balance-container">
-            <div class="beam" id="beam">
-                <div class="cup" style="position:absolute; left:-10px; bottom:-65px;"><small id="label-p1"></small><b id="s1" style="font-size:1.5rem">0</b></div>
-                <div class="cup" style="position:absolute; right:-10px; bottom:-65px;"><small id="label-p2"></small><b id="s2" style="font-size:1.5rem">0</b></div>
-            </div>
-        </div>
-
+        <div class="game-header"><div style="width:40px; height:40px; background:url('logo.png') center/cover; border:1px solid #fff; border-radius:8px;"></div><h1 class="galaxy-text" style="font-size:2rem;">SOLAR</h1></div>
+        <div class="balance-container"><div class="beam" id="beam"><div class="cup" style="position:absolute; left:-10px; bottom:-65px;"><small id="label-p1"></small><b id="s1" style="font-size:1.5rem">0</b></div><div class="cup" style="position:absolute; right:-10px; bottom:-65px;"><small id="label-p2"></small><b id="s2" style="font-size:1.5rem">0</b></div></div></div>
         <div id="choice-timer-disp" style="font-size:3rem; color:#ffaf7b; font-weight:900;">10</div>
         <h2 id="turn-txt" style="color:var(--neon); margin:5px 0;"></h2>
-        
         <div class="grid" id="number-grid">
             <script>for(let i=1; i<=10; i++) document.write(`<button class="num-btn" id="btn-${i}" onclick="ask(${i})">${i}</button>`);</script>
         </div>
@@ -337,6 +334,7 @@
 {q:"ما اسم بطولة أوروبا؟",a:"اليورو"},
 {q:"ما اسم حارس المرمى بالإنجليزية؟",a:"Goalkeeper"},
 {q:"من اخترع كرة القدم الحديثة؟",a:"إنجلترا"},
+
 {q:"كم عدد التبديلات؟",a:"5"},
 {q:"ماذا يسمى تسجيل 3 أهداف؟",a:"هاتريك"},
 {q:"كم عدد الفرق في كأس العالم 2022؟",a:"32"},
@@ -347,6 +345,7 @@
 {q:"اسم الدوري الإنجليزي؟",a:"Premier League"},
 {q:"اسم دوري إسبانيا؟",a:"La Liga"},
 {q:"كم عدد الحكام في الملعب؟",a:"1 حكم رئيسي"},
+
 {q:"ما اسم خط الملعب الجانبي؟",a:"خط التماس"},
 {q:"ما اسم منطقة الجزاء؟",a:"Penalty Box"},
 {q:"من هداف كأس العالم تاريخيًا؟",a:"كلوزه"},
@@ -357,6 +356,7 @@
 {q:"دولة رونالدو؟",a:"البرتغال"},
 {q:"رقم ميسي؟",a:"10"},
 {q:"رقم رونالدو؟",a:"7"},
+
 {q:"كم عدد بطولات ريال مدريد دوري الأبطال؟",a:"15"},
 {q:"كم عدد بطولات برشلونة دوري الأبطال؟",a:"5"},
 {q:"من فاز بيورو 2020؟",a:"إيطاليا"},
@@ -367,6 +367,7 @@
 {q:"مدرب مانشستر سيتي؟",a:"بيب غوارديولا"},
 {q:"كم دوري لمانشستر يونايتد؟",a:"20"},
 {q:"كم دوري لريال مدريد تقريبًا؟",a:"35+"},
+
 {q:"كم كأس عالم للبرازيل؟",a:"5"},
 {q:"كم كأس عالم لألمانيا؟",a:"4"},
 {q:"كم كأس عالم للأرجنتين؟",a:"3"},
@@ -377,6 +378,7 @@
 {q:"اسم دوري إيطاليا؟",a:"Serie A"},
 {q:"اسم دوري ألمانيا؟",a:"Bundesliga"},
 {q:"اسم دوري فرنسا؟",a:"Ligue 1"},
+
 {q:"ما هو VAR؟",a:"تقنية حكم الفيديو"},
 {q:"كم عدد حكام VAR؟",a:"2-4"},
 {q:"من استضاف كأس العالم 2026؟",a:"أمريكا وكندا والمكسيك"},
@@ -387,6 +389,7 @@
 {q:"مدرب ليفربول السابق؟",a:"يورغن كلوب"},
 {q:"نادي هاري كين؟",a:"بايرن ميونخ"},
 {q:"دولة محمد صلاح؟",a:"مصر"},
+
 {q:"من أكثر تسجيلاً في دوري الأبطال؟",a:"رونالدو"},
 {q:"كم أهدافه تقريبًا؟",a:"140+"},
 {q:"كم أهداف ميسي بالأبطال؟",a:"120+"},
@@ -397,6 +400,7 @@
 {q:"أول بطل كأس عالم؟",a:"أوروغواي"},
 {q:"سنة أول كأس عالم؟",a:"1930"},
 {q:"من صاحب “يد الله”؟",a:"مارادونا"},
+
 {q:"في أي سنة هدف يد الله؟",a:"1986"},
 {q:"من فاز بدوري الأبطال 2012؟",a:"تشيلسي"},
 {q:"بطل 2013؟",a:"بايرن ميونخ"},
@@ -407,6 +411,7 @@
 {q:"بطل 2022؟",a:"ريال مدريد"},
 {q:"بطل 2023؟",a:"مانشستر سيتي"},
 {q:"أكبر نتيجة بكأس العالم؟",a:"10-1"},
+
 {q:"أسرع هدف بكأس العالم؟",a:"هاكان شوكور 11 ثانية"},
 {q:"طول ملعب كرة القدم؟",a:"100-110 متر"},
 {q:"عرض ملعب كرة القدم؟",a:"64-75 متر"},
@@ -430,6 +435,7 @@
 {q:"ما عملة السعودية؟",a:"الريال"},
 {q:"ما أقرب كوكب للشمس؟",a:"عطارد"},
 {q:"ما أكبر قارة؟",a:"آسيا"},
+
 {q:"ما أصغر قارة؟",a:"أستراليا"},
 {q:"ما أكبر دولة؟",a:"روسيا"},
 {q:"ما أصغر دولة؟",a:"الفاتيكان"},
@@ -440,6 +446,7 @@
 {q:"ما الطائر الذي لا يطير؟",a:"النعامة"},
 {q:"ما أسرع حيوان بري؟",a:"الفهد"},
 {q:"ما الكوكب الأحمر؟",a:"المريخ"},
+
 {q:"ما قمر الأرض؟",a:"القمر"},
 {q:"ما الغاز الذي نتنفسه؟",a:"الأكسجين"},
 {q:"ما الجهاز الذي نستخدمه للاتصال؟",a:"الهاتف"},
@@ -450,6 +457,7 @@
 {q:"ما عاصمة فرنسا؟",a:"باريس"},
 {q:"ما عاصمة إيطاليا؟",a:"روما"},
 {q:"ما عاصمة إسبانيا؟",a:"مدريد"},
+
 {q:"ما عاصمة روسيا؟",a:"موسكو"},
 {q:"ما عاصمة كندا؟",a:"أوتاوا"},
 {q:"ما عاصمة أمريكا؟",a:"واشنطن"},
@@ -460,6 +468,7 @@
 {q:"ما أعلى شلال؟",a:"شلالات آنجل"},
 {q:"ما أعلى هضبة؟",a:"هضبة التبت"},
 {q:"ما أخف عنصر؟",a:"الهيدروجين"},
+
 {q:"ما أثقل معدن؟",a:"الأوزميوم"},
 {q:"ما أسرع سمكة؟",a:"أبو شراع"},
 {q:"ما الحيوان الذي لا يشرب الماء كثيرًا؟",a:"الكنغر"},
@@ -470,6 +479,7 @@
 {q:"ما أطول جسر في العالم؟",a:"جسر دانيانغ"},
 {q:"ما أكبر سد في العالم؟",a:"سد الممرات الثلاثة"},
 {q:"ما أكبر مدينة في العالم سكانًا؟",a:"طوكيو"},
+
 {q:"ما الدولة التي يوجد فيها برج خليفة؟",a:"الإمارات"},
 {q:"ما أطول مبنى في العالم؟",a:"برج خليفة"},
 {q:"ما أكبر بحر داخلي؟",a:"بحر قزوين"},
@@ -480,6 +490,7 @@
 {q:"ما الحيوان صاحب أقوى عضة؟",a:"التمساح"},
 {q:"ما أكبر جزيرة؟",a:"جرينلاند"},
 {q:"ما أقرب مجرة للأرض؟",a:"أندروميدا"},
+
 {q:"ما اسم مجرتنا؟",a:"درب التبانة"},
 {q:"ما أصغر كوكب؟",a:"عطارد"},
 {q:"ما الدولة التي لا تملك عملة رسمية؟",a:"الإكوادور"},
@@ -490,6 +501,7 @@
 {q:"ما أقدم جامعة في العالم؟",a:"القرويين"},
 {q:"من اخترع الألعاب الأولمبية؟",a:"اليونان"},
 {q:"ما أقدم هرم؟",a:"هرم زوسر"},
+
 {q:"من أول إنسان في الفضاء؟",a:"يوري غاغارين"},
 {q:"من أول إنسان على القمر؟",a:"نيل أرمسترونغ"},
 {q:"ما أول مركبة وصلت القمر؟",a:"أبولو 11"},
@@ -500,6 +512,7 @@
 {q:"ما أكبر صحراء في العالم (بما فيها القطبية)؟",a:"أنتاركتيكا"},
 {q:"ما أعمق نقطة في الأرض؟",a:"خندق ماريانا"},
 {q:"ما أعلى نقطة في الأرض؟",a:"جبل إيفرست"},
+
 {q:"من اخترع الصفر؟",a:"الهند"},
 {q:"من وضع قوانين الحركة؟",a:"نيوتن"},
 {q:"من صاحب نظرية النسبية؟",a:"آينشتاين"},
@@ -513,30 +526,27 @@
 ]
         };
 
-        let scores = {1:0, 2:0}, turn = 1, curVal, timerInt, choiceInt, p1Cats = [], p2Cats = [], winLimit, qTime, choiceTime, isPaused = false;
+        let scores = {1:0, 2:0}, turn = 1, curVal, timerInt, choiceInt, p1Cats = [], p2Cats = [], winLimit, qTime, choiceLimit, isPaused = false;
         let used = { 'عام': [], 'دين': [], 'كورة': [], 'ثقافة': [] };
 
-        function playS(t) { 
-            let s = document.getElementById('s-'+t);
-            if(s) { s.currentTime=0; s.play().catch(()=>{}); }
-        }
+        function playS(t) { let s = document.getElementById('s-'+t); if(s) { s.currentTime=0; s.play().catch(()=>{}); } }
 
         function setCat(p, cat) {
             let list = (p === 1 ? p1Cats : p2Cats);
             if(list.includes(cat)) list.splice(list.indexOf(cat), 1);
             else if(list.length < 2) list.push(cat);
-            const areaId = (p === 1 ? 'p1-cats-setup' : 'p2-cats-setup');
-            document.querySelectorAll(`#${areaId} .cat-card`).forEach(el => {
-                const name = el.innerText.slice(2);
+            const parent = (p === 1 ? 'p1-cats-setup' : 'p2-cats-setup');
+            document.querySelectorAll(`#${parent} .cat-card`).forEach(el => {
+                const name = el.innerText.replace(/[^\u0621-\u064A]/g, "");
                 el.className = list.includes(name) ? 'cat-card selected' : 'cat-card';
             });
         }
 
         function startGame() {
-            if(p1Cats.length < 2 || p2Cats.length < 2) return alert("اختار قسمين لكل فريق!");
+            if(p1Cats.length < 2 || p2Cats.length < 2) return alert("اختاروا قسمين لكل فريق!");
             winLimit = parseInt(document.getElementById('score-limit').value);
             qTime = parseInt(document.getElementById('time-limit').value);
-            choiceTime = parseInt(document.getElementById('choice-limit-input').value);
+            choiceLimit = parseInt(document.getElementById('choice-limit-input').value);
             document.getElementById('label-p1').innerText = document.getElementById('p1-name').value;
             document.getElementById('label-p2').innerText = document.getElementById('p2-name').value;
             document.getElementById('setup-screen').style.display = 'none';
@@ -545,12 +555,13 @@
         }
 
         function updateTurn() {
-            document.getElementById('turn-txt').innerText = "دور: " + (turn === 1 ? document.getElementById('p1-name').value : document.getElementById('p2-name').value);
+            const n = (turn === 1 ? document.getElementById('p1-name').value : document.getElementById('p2-name').value);
+            document.getElementById('turn-txt').innerText = "دور: " + n;
             startChoiceTimer();
         }
 
         function startChoiceTimer() {
-            let rem = choiceTime;
+            let rem = choiceLimit;
             document.getElementById('choice-timer-disp').innerText = rem;
             clearInterval(choiceInt);
             choiceInt = setInterval(() => {
@@ -595,9 +606,8 @@
             if(scores[turn] >= winLimit) {
                 document.getElementById('loser-display').innerText = (turn === 1 ? document.getElementById('p1-name').value : document.getElementById('p2-name').value);
                 document.getElementById('wasted-screen').style.display = 'flex';
-                playS('boom');
-                setTimeout(() => playS('laugh'), 1000);
-                setTimeout(() => location.reload(), 10000);
+                playS('boom'); setTimeout(() => playS('laugh'), 1000);
+                setTimeout(() => location.reload(), 8000);
             } else {
                 turn = (turn === 1 ? 2 : 1);
                 updateTurn();
